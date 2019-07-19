@@ -1,0 +1,32 @@
+2019-07-20 01:23:27.156 +10:00 [ERR] TEST
+2019-07-20 01:23:27.392 +10:00 [FTL] Unable to start host, check application configuartion
+System.FormatException: Could not parse the JSON file. Error on line number '0': ''. ---> Newtonsoft.Json.JsonReaderException: Error reading JObject from JsonReader. Path '', line 0, position 0.
+   at Newtonsoft.Json.Linq.JObject.Load(JsonReader reader, JsonLoadSettings settings)
+   at Newtonsoft.Json.Linq.JObject.Load(JsonReader reader)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.ParseStream(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load()
+   at Microsoft.Extensions.Configuration.ConfigurationRoot..ctor(IList`1 providers)
+   at Microsoft.Extensions.Configuration.ConfigurationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.WebHostBuilder.BuildCommonServices(AggregateException& hostingStartupErrors)
+   at Microsoft.AspNetCore.Hosting.WebHostBuilder.Build()
+   at Astro.API.Program.Main(String[] args) in E:\Development\Projects\astro\astro-be\src\Astro.API\Program.cs:line 18
+2019-07-20 01:24:33.918 +10:00 [ERR] TEST
+2019-07-20 01:26:09.670 +10:00 [ERR] TEST
+2019-07-20 01:26:09.839 +10:00 [FTL] Unable to start host, check application configuartion
+System.FormatException: Could not parse the JSON file. Error on line number '0': ''. ---> Newtonsoft.Json.JsonReaderException: Error reading JObject from JsonReader. Path '', line 0, position 0.
+   at Newtonsoft.Json.Linq.JObject.Load(JsonReader reader, JsonLoadSettings settings)
+   at Newtonsoft.Json.Linq.JObject.Load(JsonReader reader)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.ParseStream(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load()
+   at Microsoft.Extensions.Configuration.ConfigurationRoot..ctor(IList`1 providers)
+   at Microsoft.Extensions.Configuration.ConfigurationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.WebHostBuilder.BuildCommonServices(AggregateException& hostingStartupErrors)
+   at Microsoft.AspNetCore.Hosting.WebHostBuilder.Build()
+   at Astro.API.Program.Main(String[] args) in E:\Development\Projects\astro\astro-be\src\Astro.API\Program.cs:line 18
+2019-07-20 01:44:39.223 +10:00 [ERR] TEST

@@ -1,0 +1,19 @@
+<Project>  
+
+	<Import Project="..\version.props" />
+	
+	<PropertyGroup>		
+		<RepositoryType>git</RepositoryType>		
+		<CodeAnalysisRuleSet>..\..\astro-be.ruleset</CodeAnalysisRuleSet>		
+		<LangVersion>Latest</LangVersion>
+	</PropertyGroup>  
+
+	<ItemGroup>
+		<AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json" />
+	</ItemGroup>
+
+	<ItemGroup>	  
+		<PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="All" />
+	</ItemGroup>
+  
+</Project>

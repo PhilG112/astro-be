@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{D1B3D0B9-B93B-4406-90C0-6C9F72260CFA}"
+	ProjectSection(SolutionItems) = preProject
+		build\common.props = build\common.props
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5013710F-4ACA-484F-9C6A-1BE1ECCF2876}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1891DFDC-F151-47E2-9888-EC2D87B1CB99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{522B4A53-5BC7-48A6-8BDE-BD0EE14D8515}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		astro-be.ruleset = astro-be.ruleset
+		README.md = README.md
+		stylecop.json = stylecop.json
+		version.props = version.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Astro.API", "src\Astro.API\Astro.API.csproj", "{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Astro.Facts", "test\Astro.Facts\Astro.Facts.csproj", "{6DBBF3A5-E7E5-498D-9648-4B67C7435665}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D1B3D0B9-B93B-4406-90C0-6C9F72260CFA} = {522B4A53-5BC7-48A6-8BDE-BD0EE14D8515}
+		{CA1C612E-D7F4-4F1E-98F7-E7F22A2489BA} = {522B4A53-5BC7-48A6-8BDE-BD0EE14D8515}
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625} = {5013710F-4ACA-484F-9C6A-1BE1ECCF2876}
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665} = {1891DFDC-F151-47E2-9888-EC2D87B1CB99}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1F74479-B491-497E-984B-D9AB84AEB436}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Debug|x64.Build.0 = Debug|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Debug|x86.Build.0 = Debug|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Release|x64.ActiveCfg = Release|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Release|x64.Build.0 = Release|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Release|x86.ActiveCfg = Release|Any CPU
+		{7F6AB010-BFFF-4FA5-98A9-E7E9A58A4625}.Release|x86.Build.0 = Release|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Debug|x64.Build.0 = Debug|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Debug|x86.Build.0 = Debug|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Release|x64.ActiveCfg = Release|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Release|x64.Build.0 = Release|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Release|x86.ActiveCfg = Release|Any CPU
+		{6DBBF3A5-E7E5-498D-9648-4B67C7435665}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
