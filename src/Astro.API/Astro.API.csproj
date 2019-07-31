@@ -6,6 +6,14 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Get.sql" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Get.sql" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.60.6" />
