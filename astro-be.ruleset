@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Rules for StyleCop.Analyzers" Description="Code analysis rules for StyleCop.Analyzers.csproj." ToolsVersion="14.0">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for StyleCop.Analyzers" Description="Code analysis rules for StyleCop.Analyzers.csproj." ToolsVersion="16.0">
   <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
     <Rule Id="AvoidAsyncSuffix" Action="Error" />
     <Rule Id="AvoidAsyncVoid" Action="Error" />
@@ -7,7 +7,7 @@
     <Rule Id="UseConfigureAwait" Action="Error" />
   </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
-	<Rule Id="AD0001" Action="None" />
+    <Rule Id="AD0001" Action="None" />
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
     <Rule Id="CA1016" Action="Warning" />
@@ -76,28 +76,28 @@
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1000" Action="Error" />
-    <Rule Id="SA1001" Action="None" />
+    <Rule Id="SA1001" Action="Warning" />
     <Rule Id="SA1021" Action="Error" />
     <Rule Id="SA1022" Action="Error" />
     <Rule Id="SA1100" Action="Error" />
-    <Rule Id="SA1101" Action="None" />
+    <Rule Id="SA1101" Action="Warning" />
     <Rule Id="SA1106" Action="Error" />
     <Rule Id="SA1111" Action="Error" />
     <Rule Id="SA1112" Action="Error" />
     <Rule Id="SA1119" Action="Error" />
-	<Rule Id="SA1120" Action="None" />
+    <Rule Id="SA1120" Action="Warning" />
     <Rule Id="SA1121" Action="Error" />
     <Rule Id="SA1122" Action="Error" />
     <Rule Id="SA1133" Action="Error" />
-	<Rule Id="SA1137" Action="None" />
-	<Rule Id="SA1200" Action="None" />
-	<Rule Id="SA1201" Action="None" />
+    <Rule Id="SA1137" Action="Warning" />
+    <Rule Id="SA1200" Action="None" />
+    <Rule Id="SA1201" Action="Warning" />
     <Rule Id="SA1300" Action="Error" />
     <Rule Id="SA1302" Action="Error" />
     <Rule Id="SA1303" Action="Error" />
     <Rule Id="SA1304" Action="Error" />
     <Rule Id="SA1305" Action="Warning" />
-    <Rule Id="SA1309" Action="None" />
+    <Rule Id="SA1309" Action="Warning" />
     <Rule Id="SA1311" Action="Error" />
     <Rule Id="SA1400" Action="Error" />
     <Rule Id="SA1401" Action="Error" />
@@ -110,20 +110,20 @@
     <Rule Id="SA1408" Action="Error" />
     <Rule Id="SA1410" Action="Error" />
     <Rule Id="SA1411" Action="Error" />
-    <Rule Id="SA1412" Action="None" />
-	<Rule Id="SA1413" Action="None" />
-	<Rule Id="SA1502" Action="None" />
-	<Rule Id="SA1503" Action="Error" />
-	<Rule Id="SA1512" Action="None" />
-	<Rule Id="SA1515" Action="None" />
-	<Rule Id="SA1518" Action="None" />
+    <Rule Id="SA1412" Action="Warning" />
+    <Rule Id="SA1413" Action="Warning" />
+    <Rule Id="SA1502" Action="Warning" />
+    <Rule Id="SA1503" Action="Error" />
+    <Rule Id="SA1512" Action="Warning" />
+    <Rule Id="SA1515" Action="Warning" />
+    <Rule Id="SA1518" Action="Warning" />
     <Rule Id="SA1600" Action="None" />
-	<Rule Id="SA1602" Action="None" />
-    <Rule Id="SA1603" Action="Error" />
-    <Rule Id="SA1609" Action="None" />
-	<Rule Id="SA1615" Action="None" />
-	<Rule Id="SA1623" Action="None" />
-    <Rule Id="SA1633" Action="None" />
+    <Rule Id="SA1602" Action="Warning" />
+    <Rule Id="SA1603" Action="Warning" />
+    <Rule Id="SA1609" Action="Warning" />
+    <Rule Id="SA1615" Action="Warning" />
+    <Rule Id="SA1623" Action="Warning" />
+    <Rule Id="SA1633" Action="Warning" />
     <Rule Id="SA1636" Action="Error" />
     <Rule Id="SA1642" Action="Error" />
     <Rule Id="SA1643" Action="Error" />
