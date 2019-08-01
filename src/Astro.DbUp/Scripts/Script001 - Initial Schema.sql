@@ -5,9 +5,9 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE dbo.CelestialObejcts
+CREATE TABLE dbo.CelestialObjects
 (
-	Id INT NOT NULL,
+	Id INT IDENTITY(1,1),
 	ObjectType VARCHAR(25) NOT NULL,
 	Magnitude DECIMAL(4,2) NOT NULL,
 	AbsoluteMagnitude DECIMAL(4,2) NULL,
@@ -16,7 +16,7 @@ CREATE TABLE dbo.CelestialObejcts
 	Designation2 VARCHAR(10) NULL,
 	Designation3 VARCHAR(10) NULL,
 	Designation4 VARCHAR(10) NULL,
-	CONSTRAINT PK_Astro_Id PRIMARY KEY CLUSTERED (Id)
+	CONSTRAINT PK_CelestialObjects_Id PRIMARY KEY CLUSTERED (Id)
 )
 GO
-CREATE UNIQUE NONCLUSTERED INDEX IDX_Designation1 ON dbo.CelestialObejcts (Designation1)
+CREATE UNIQUE NONCLUSTERED INDEX IDX_Designation1 ON dbo.CelestialObjects (Designation1)

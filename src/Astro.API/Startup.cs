@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Astro.API.Application.Stores.CelestialObject;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,12 @@ namespace Astro.API
             });
 
             services.AddCors(c => c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()));
+
+            services.AddSingleton<ICelestialObjectStore>(_ =>
+            {
+                var connString = Configuration.GetConnectionString("Astro");
+                return new CelestialObjectStore(connString);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

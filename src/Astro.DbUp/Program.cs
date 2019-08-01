@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using DbUp;
 using Microsoft.Extensions.Configuration;
-using static System.Console;
 
 namespace Astro.DbUp
 {
@@ -31,22 +30,22 @@ namespace Astro.DbUp
 
             if (!result.Successful)
             {
-                ForegroundColor = ConsoleColor.Red;
-                WriteLine(result.Error);
-                ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(result.Error);
+                Console.ResetColor();
 
 #if DEBUG
-                ReadKey();
+                Console.ReadKey();
 #endif
                 return;
             }
 
-            ForegroundColor = ConsoleColor.Green;
-            WriteLine("Success!");
-            ResetColor();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Success!");
+            Console.ResetColor();
 
 #if DEBUG
-            ReadKey();
+            Console.ReadKey();
 #endif
         }
     }

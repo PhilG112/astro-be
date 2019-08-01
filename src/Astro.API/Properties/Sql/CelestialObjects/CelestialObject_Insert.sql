@@ -1,0 +1,22 @@
+﻿INSERT INTO dbo.CelestialObjects
+(
+	ObjectType,
+	Magnitude,
+	AbsoluteMagnitude,
+	Name,
+	Designation1,
+	Designation2,
+	Designation3,
+	Designation4
+)
+VALUES
+(
+	@ObjectType,
+	@Magnitude,
+	@AbsoluteMagnitude,
+	@Name,
+	@Designation1,
+	@Designation2,
+	@Designation3,
+	@Designation4
+)

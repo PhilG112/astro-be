@@ -31,7 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="Application\Models\Responses\" />
+    <Folder Include="Application\Models\Requests\" />
   </ItemGroup>
 
 </Project>
