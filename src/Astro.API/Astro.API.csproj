@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -33,6 +34,7 @@
   <ItemGroup>
     <Folder Include="Application\Models\Responses\" />
     <Folder Include="Application\Models\Requests\" />
+    <Folder Include="Application\Validators\" />
   </ItemGroup>
 
 </Project>
