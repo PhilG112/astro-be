@@ -62,5 +62,10 @@ namespace Astro.API
             app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod());
             app.UseMvc();
         }
+
+        protected virtual void ConfigureTestServices(IServiceCollection services)
+        {
+            // DEVNOTE: To override in test projects where services can replaced with mocked instances.
+        }
     }
 }
