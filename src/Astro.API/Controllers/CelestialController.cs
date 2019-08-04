@@ -17,7 +17,7 @@ namespace Astro.API.Controllers
             _store = store;
         }
 
-        [HttpGet("get")]
+        [HttpGet]
         [ProducesResponseType(typeof(CelestialObjectEntityModel), 200)]
         public async Task<IActionResult> GetCelestialObject()
         {

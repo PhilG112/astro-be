@@ -10,17 +10,13 @@ namespace Astro.Integration
 {
     public class TestStartup : Startup
     {
-        public new IConfiguration Configuration { get; set; }
-
         public TestStartup(IConfiguration config)
             : base(config)
-        {
-            Configuration = config;
-        }
+        { }
 
         protected override void ConfigureTestServices(IServiceCollection services)
         {
-            base.ConfigureTestServices(services);   
+            base.ConfigureTestServices(services);
         }
     }
 }
