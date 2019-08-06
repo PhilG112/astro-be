@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using Astro.API.Application.Stores.EntityModels;
 using Dapper;
 
-namespace Astro.API.Application.Stores.CelestialObject
+namespace Astro.API.Application.Stores.Celestial
 {
-    public class CelestialObjectStore : ICelestialObjectStore
+    public class CelestialStore : ICelestialStore
     {
         private readonly string _connString;
 
-        public CelestialObjectStore(string connString)
+        public CelestialStore(string connString)
         {
             _connString = connString;
         }

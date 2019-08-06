@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Astro.API.Application.Stores.CelestialObject;
+using Astro.API.Application.Stores.Celestial;
 using Astro.API.Application.Stores.EntityModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +10,9 @@ namespace Astro.API.Controllers
     [Route("celestial")]
     public class CelestialController : Controller
     {
-        private readonly ICelestialObjectStore _store;
+        private readonly ICelestialStore _store;
 
-        public CelestialController(ICelestialObjectStore store)
+        public CelestialController(ICelestialStore store)
         {
             _store = store;
         }
@@ -27,7 +27,6 @@ namespace Astro.API.Controllers
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> CreateCelestialObject()
         {
             throw new NotImplementedException();

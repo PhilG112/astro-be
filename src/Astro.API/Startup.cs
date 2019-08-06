@@ -1,4 +1,4 @@
-﻿using Astro.API.Application.Stores.CelestialObject;
+﻿using Astro.API.Application.Stores.Celestial;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,10 +31,10 @@ namespace Astro.API
                 c.SwaggerDoc("v1", new Info { Title = "Astro API", Version = "v1" });
             });
 
-            services.AddSingleton<ICelestialObjectStore>(_ =>
+            services.AddSingleton<ICelestialStore>(_ =>
             {
                 var connString = Configuration.GetConnectionString("Astro");
-                return new CelestialObjectStore(connString);
+                return new CelestialStore(connString);
             });
         }
 

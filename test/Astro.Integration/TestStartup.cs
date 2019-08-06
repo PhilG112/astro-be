@@ -1,10 +1,7 @@
 ﻿using Astro.API;
-using Microsoft.AspNetCore.Hosting;
+using Astro.Integration.Celestial;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Astro.Integration
 {
@@ -16,7 +13,7 @@ namespace Astro.Integration
 
         protected override void ConfigureTestServices(IServiceCollection services)
         {
-            base.ConfigureTestServices(services);
+            services.AddSingleton(CelestialStoreMock.GetStoreMock());
         }
     }
 }
