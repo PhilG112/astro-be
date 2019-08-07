@@ -10,7 +10,7 @@ namespace Astro.Integration.Celestial
         {
             var mockStore = new Mock<ICelestialStore>();
 
-            var model = new CelestialObjectEntityModel
+            var model = new CelestialEntityModel
             {
                 Id = 1,
                 Name = "Omega Centauri",

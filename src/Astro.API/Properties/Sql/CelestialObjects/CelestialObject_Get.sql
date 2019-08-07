@@ -1,2 +1,3 @@
-﻿SELECT TOP 1 *
-FROM dbo.CelestialObjects
+﻿SELECT *
+FROM dbo.CelestialObjects as c
+WHERE c.Id = @Id

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Astro.API.Application.Stores.Celestial;
-using Astro.API.Application.Stores.EntityModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Astro.API.Controllers
@@ -18,12 +17,21 @@ namespace Astro.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(CelestialObjectEntityModel), 200)]
         public async Task<IActionResult> GetCelestialObject()
         {
             var result = await _store.GetCelestialObject();
 
-            return Ok(result);
+            if (result.NotFound)
+            {
+                return NotFound();
+            }
+
+            if (result.HasException)
+            {
+                return StatusCode(500);
+            }
+
+            return Ok(result.Result);
         }
 
         [HttpPost]

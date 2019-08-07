@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Astro.API.Application.Stores.EntityModels;
+using Astro.API.Application.Response;
 
 namespace Astro.API.Application.Stores.Celestial
 {
     public interface ICelestialStore
     {
-        Task<CelestialObjectEntityModel> GetCelestialObject();
+        Task<CelestialGetResult> GetCelestialObject();
     }
 }
