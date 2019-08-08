@@ -1,8 +1,8 @@
 ﻿using Astro.API.Application.Stores.EntityModels.Enums;
 
-namespace Astro.API.Application.Stores.EntityModels
+namespace Astro.API.Application.Response.Get
 {
-    public class DistanceEntityModel
+    public class DistanceGetResponseModel
     {
         public int CelestialObjectId { get; set; }
 

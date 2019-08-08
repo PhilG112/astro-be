@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Astro.API.Application.Extensions;
-using Astro.API.Application.Response;
+using Astro.API.Application.Request.Post;
+using Astro.API.Application.Response.Get;
+using Astro.API.Application.Response.Search;
 using Astro.API.Application.Stores.EntityModels;
 using Dapper;
 using Serilog;
@@ -23,7 +23,7 @@ namespace Astro.API.Application.Stores.Celestial
             _connString = connString;
         }
 
-        public async Task<CelestialGetResult> GetCelestialObject()
+        public async Task<CelestialGetResult> GetCelestialObject(int id)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Astro.API.Application.Stores.Celestial
 
                     var celestialObject = await conn.QueryFirstOrDefaultAsync<CelestialEntityModel>(
                         SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Get),
-                        new { Id = 2 });
+                        new { Id = id });
 
                     if (celestialObject == null)
                     {
@@ -51,9 +51,43 @@ namespace Astro.API.Application.Stores.Celestial
             }
             catch (Exception ex)
             {
-                _log.Error(ex, "Unable to load entity from database");
+                _log.Error(ex, "Unable to load entity from database.");
                 return new CelestialGetResult(ex);
             }
+        }
+
+        public async Task<CelestialSearchQueryResult> SearchCelestialObject(string searchText)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connString))
+                {
+                    await conn.OpenAsync();
+
+                    var searchResult = await conn.QueryAsync<CelestialSearchQueryResultModel>(
+                        SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Search),
+                        new { searchText = $"\"{searchText}*\"" });
+
+                    if (!searchResult.Any())
+                    {
+                        return new CelestialSearchQueryResult(notFound: true);
+                    }
+
+                    return new CelestialSearchQueryResult(searchResult);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Unable to search for entity in database.");
+                return new CelestialSearchQueryResult(ex);
+                throw;
+            }
+        }
+
+        // TODO: Currently returns an int, change to proper custom object
+        public async Task<int> CreateCelestialObject(CelestialPostRequestModel request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

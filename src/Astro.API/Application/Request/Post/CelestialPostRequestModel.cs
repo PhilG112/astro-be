@@ -2,20 +2,20 @@
 using System.Collections.ObjectModel;
 using Astro.API.Application.Stores.EntityModels.Enums;
 
-namespace Astro.API.Application.Response
+namespace Astro.API.Application.Request.Post
 {
-    public class CelestialGetResponseModel
+    public class CelestialPostRequestModel
     {
-        public CelestialGetResponseModel()
+        public CelestialPostRequestModel()
         {
-            Distances = new Collection<DistanceGetResponseModel>();
+            Distances = new Collection<DistancePostRequestModel>();
         }
 
         public ObjectType ObjectType { get; set; }
 
-        public decimal Magnitude { get; set; }
+        public double Magnitude { get; set; }
 
-        public decimal AbsoluteMagnitude { get; set; }
+        public double AbsoluteMagnitude { get; set; }
 
         public string Name { get; set; }
 
@@ -27,6 +27,6 @@ namespace Astro.API.Application.Response
 
         public string Designation4 { get; set; }
 
-        public ICollection<DistanceGetResponseModel> Distances { get; set; }
+        public ICollection<DistancePostRequestModel> Distances { get; set; }
     }
 }

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Astro.API
@@ -24,7 +26,12 @@ namespace Astro.API
             services.AddCors();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Startup>());
+                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Startup>())
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
+                });
 
             services.AddSwaggerGen(c =>
             {

@@ -1,6 +1,9 @@
-﻿using Astro.API.Application.Stores.Celestial;
-using Astro.API.Application.Stores.EntityModels;
+﻿using Astro.API.Application.Response.Get;
+using Astro.API.Application.Response.Search;
+using Astro.API.Application.Stores.Celestial;
+using Astro.API.Application.Stores.EntityModels.Enums;
 using Moq;
+using System.Collections.ObjectModel;
 
 namespace Astro.Integration.Celestial
 {
@@ -10,19 +13,30 @@ namespace Astro.Integration.Celestial
         {
             var mockStore = new Mock<ICelestialStore>();
 
-            var model = new CelestialEntityModel
+            var getModel = new CelestialGetResponseModel
             {
-                Id = 1,
                 Name = "Omega Centauri",
-                AbsoluteMagnitude = 4.3m,
-                Magnitude = 2.5m,
+                AbsoluteMagnitude = 4.3,
+                Magnitude = 2.5,
                 Designation1 = "NGC5139",
                 Designation2 = null,
                 Designation3 = null,
-                Designation4 = null
+                Designation4 = null,
+                ObjectType = ObjectType.Solar,
+                Distances = new Collection<DistanceGetResponseModel>
+                {
+                    new DistanceGetResponseModel
+                    {
+                        DistanceType = DistanceType.AU,
+                        Tolerance = 4.5,
+                        Value = 8.94
+                    }
+                }
             };
 
-            mockStore.Setup(x => x.GetCelestialObject()).ReturnsAsync(model);
+            var getResult = new CelestialGetResult(getModel);
+
+            mockStore.Setup(x => x.GetCelestialObject(It.IsAny<int>())).ReturnsAsync(getResult);
 
             return mockStore.Object;
         }

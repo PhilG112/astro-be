@@ -20,9 +20,17 @@ CREATE TABLE dbo.CelestialObjects
 	CONSTRAINT PK_CelestialObjects_Id PRIMARY KEY CLUSTERED (Id)
 )
 GO
-CREATE NONCLUSTERED INDEX IDX_Designation1 ON dbo.CelestialObjects (Designation1)
+CREATE FULLTEXT CATALOG CelestialObjects_Catalog
 GO
-CREATE NONCLUSTERED INDEX IDX_Name ON dbo.CelestialObjects (Name)
+CREATE FULLTEXT INDEX ON dbo.CelestialObjects
+(
+	Name Language 1033,
+	Designation1 Language 1033,
+	Designation2 Language 1033,
+	Designation3 Language 1033,
+	Designation4 Language 1033
+)
+KEY INDEX PK_CelestialObjects_Id ON CelestialObjects_Catalog
 GO
 -- Object: Table dbo.Distance
 SET ANSI_NULLS ON

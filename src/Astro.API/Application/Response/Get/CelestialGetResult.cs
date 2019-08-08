@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Astro.API.Application.Response
+namespace Astro.API.Application.Response.Get
 {
     public class CelestialGetResult
     {

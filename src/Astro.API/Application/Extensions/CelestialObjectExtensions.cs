@@ -1,5 +1,6 @@
 ﻿using System.Linq;
-using Astro.API.Application.Response;
+using Astro.API.Application.Response.Get;
+using Astro.API.Application.Response.Search;
 using Astro.API.Application.Stores.EntityModels;
 
 namespace Astro.API.Application.Extensions
@@ -10,6 +11,7 @@ namespace Astro.API.Application.Extensions
         {
             return new CelestialGetResponseModel
             {
+                Id = model.Id,
                 Name = model.Name,
                 Magnitude = model.Magnitude,
                 AbsoluteMagnitude = model.AbsoluteMagnitude,
@@ -20,6 +22,7 @@ namespace Astro.API.Application.Extensions
                 Designation4 = model.Designation4,
                 Distances = model.Distances.Select(d => new DistanceGetResponseModel
                 {
+                    CelestialObjectId = d.CelestialObjectId,
                     DistanceType = d.DistanceType,
                     Tolerance = d.Tolerance,
                     Value = d.Value

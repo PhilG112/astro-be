@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Astro.API.Application.Request.Post;
 using Astro.API.Application.Stores.Celestial;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +17,10 @@ namespace Astro.API.Controllers
             _store = store;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCelestialObject()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCelestialObject(int id)
         {
-            var result = await _store.GetCelestialObject();
+            var result = await _store.GetCelestialObject(id);
 
             if (result.NotFound)
             {
@@ -34,9 +35,29 @@ namespace Astro.API.Controllers
             return Ok(result.Result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateCelestialObject()
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchCelestialObject([FromQuery]string text)
         {
+            var result = await _store.SearchCelestialObject(text);
+
+            if (result.NotFound)
+            {
+                return NotFound();
+            }
+
+            if (result.HasException)
+            {
+                return StatusCode(500);
+            }
+
+            return Ok(result.Results);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCelestialObject(CelestialPostRequestModel request)
+        {
+            var result = await _store.CreateCelestialObject(request);
+
             throw new NotImplementedException();
         }
 
