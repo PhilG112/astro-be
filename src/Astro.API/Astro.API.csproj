@@ -15,23 +15,31 @@
   </ItemGroup>
   
   <ItemGroup>
+    <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Create.sql" />
+    <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Delete.sql" />
     <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Get.sql" />
     <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Search.sql" />
+    <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Update.sql" />
+    <None Remove="Properties\Sql\Distances\Distances_Create.sql" />
     <None Remove="Properties\Sql\Distances\Distances_Get.sql" />
+    <None Remove="Properties\Sql\Distances\Distances_Update.sql" />
   </ItemGroup>
   
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Create.sql" />
+    <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Delete.sql" />
     <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Get.sql" />
     <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Search.sql" />
+    <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Update.sql" />
+    <EmbeddedResource Include="Properties\Sql\Distances\Distances_Create.sql" />
     <EmbeddedResource Include="Properties\Sql\Distances\Distances_Get.sql" />
+    <EmbeddedResource Include="Properties\Sql\Distances\Distances_Update.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.60.6" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
@@ -40,10 +48,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="4.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Application\Validators\" />
   </ItemGroup>
 
 </Project>

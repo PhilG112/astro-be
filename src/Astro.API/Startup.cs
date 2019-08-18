@@ -1,4 +1,5 @@
-﻿using Astro.API.Application.Stores.Celestial;
+﻿using System.Linq;
+using Astro.API.Application.Stores.Celestial;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,18 +21,38 @@ namespace Astro.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
             services.AddMvc()
+                .AddFluentValidation(fv =>
+                {
+                    fv.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Startup>())
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
                 });
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = (context) =>
+                {
+                    var errors = context.ModelState.Values
+                        .SelectMany(x => x.Errors.Select(e => e.ErrorMessage)).ToList();
+
+                    var result = new
+                    {
+                        Message = "Validation Errors",
+                        Errors = errors
+                    };
+
+                    return new BadRequestObjectResult(result);
+                };
+            });
 
             services.AddSwaggerGen(c =>
             {

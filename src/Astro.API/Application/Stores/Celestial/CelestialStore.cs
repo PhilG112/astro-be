@@ -4,8 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Astro.API.Application.Extensions;
 using Astro.API.Application.Request.Post;
+using Astro.API.Application.Request.Update;
+using Astro.API.Application.Response.Create;
+using Astro.API.Application.Response.Delete;
 using Astro.API.Application.Response.Get;
 using Astro.API.Application.Response.Search;
+using Astro.API.Application.Response.Update;
 using Astro.API.Application.Stores.EntityModels;
 using Dapper;
 using Serilog;
@@ -80,14 +84,128 @@ namespace Astro.API.Application.Stores.Celestial
             {
                 _log.Error(ex, "Unable to search for entity in database.");
                 return new CelestialSearchQueryResult(ex);
-                throw;
             }
         }
 
-        // TODO: Currently returns an int, change to proper custom object
-        public async Task<int> CreateCelestialObject(CelestialPostRequestModel request)
+        public async Task<CelestialCreateResult> CreateCelestialObject(CelestialPostRequestModel request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var conn = new SqlConnection(_connString))
+                {
+                    await conn.OpenAsync();
+
+                    var cParams = new
+                    {
+                        ObjectType = request.ObjectType.ToString(),
+                        request.Magnitude,
+                        request.AbsoluteMagnitude,
+                        request.Name,
+                        request.Designation1,
+                        request.Designation2,
+                        request.Designation3,
+                        request.Designation4,
+                        request.Description
+                    };
+
+                    var createResultId = await conn.QuerySingleAsync<int>(
+                        SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Create),
+                        cParams);
+
+                    foreach (var distance in request.Distances)
+                    {
+                        var dParams = new
+                        {
+                            CelestialObjectId = createResultId,
+                            DistanceType = distance.DistanceType.ToString(),
+                            distance.Tolerance,
+                            distance.Value
+                        };
+
+                        await conn.ExecuteAsync(
+                            SqlLoader.GetSql(SqlResourceNames.Distances.Distances_Create),
+                            dParams);
+                    }
+
+                    return new CelestialCreateResult(createResultId);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Unable to create object.");
+                return new CelestialCreateResult(ex);
+            }
+        }
+
+        public async Task<CelestialUpdateResult> UpdateCelestialObject(CelestialUpdateRequestModel request)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connString))
+                {
+                    var cParams = new
+                    {
+                        request.Id,
+                        request.Magnitude,
+                        request.AbsoluteMagnitude,
+                        request.Name,
+                        ObjectType = request.ObjectType.ToString(),
+                        request.Designation1,
+                        request.Designation2,
+                        request.Designation3,
+                        request.Designation4,
+                        request.Description
+                    };
+
+                    await conn.ExecuteAsync(
+                        SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Update),
+                        cParams);
+
+                    foreach (var distance in request.Distances)
+                    {
+                        var dParams = new
+                        {
+                            CelestialObjectId = request.Id,
+                            DistanceType = distance.DistanceType.ToString(),
+                            distance.Value,
+                            distance.Tolerance
+                        };
+
+                        await conn.ExecuteAsync(
+                            SqlLoader.GetSql(SqlResourceNames.Distances.Distances_Update),
+                            dParams);
+                    }
+
+                    return new CelestialUpdateResult();
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, $"Unable to update object with id: {request.Id}");
+                return new CelestialUpdateResult(ex);
+            }
+        }
+
+        public async Task<CelestialDeleteResult> DeleteCelestialObject(int id)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(_connString))
+                {
+                    await conn.OpenAsync();
+
+                    await conn.ExecuteAsync(
+                        SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Delete),
+                        new { Id = id });
+
+                    return new CelestialDeleteResult();
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, $"Unable to delete object with id: {id}");
+                return new CelestialDeleteResult(ex);
+            }
         }
     }
 }

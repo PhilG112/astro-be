@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Astro.API.Application.Request.Post;
+using Astro.API.Application.Request.Update;
 using Astro.API.Application.Stores.Celestial;
+using Astro.API.Application.Validators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Astro.API.Controllers
@@ -54,17 +56,42 @@ namespace Astro.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCelestialObject(CelestialPostRequestModel request)
+        public async Task<IActionResult> CreateCelestialObject([FromBody]CelestialPostRequestModel request)
         {
             var result = await _store.CreateCelestialObject(request);
 
-            throw new NotImplementedException();
+            if (result.HasException)
+            {
+                return StatusCode(500);
+            }
+
+            return Created($"/celestial/{result.Result}", result.Result);
         }
 
         [HttpPatch]
-        public async Task<IActionResult> UpdateCelestialObject()
+        public async Task<IActionResult> UpdateCelestialObject([FromBody]CelestialUpdateRequestModel request)
         {
-            throw new NotImplementedException();
+            var result = await _store.UpdateCelestialObject(request);
+
+            if (result.HasException)
+            {
+                return StatusCode(500);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCelestialObject(int id)
+        {
+            var result = await _store.DeleteCelestialObject(id);
+
+            if (result.HasException)
+            {
+                return StatusCode(500);
+            }
+
+            return NoContent();
         }
     }
 }

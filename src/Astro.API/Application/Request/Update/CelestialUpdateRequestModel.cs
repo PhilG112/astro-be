@@ -2,14 +2,16 @@
 using System.Collections.ObjectModel;
 using Astro.API.Application.Stores.EntityModels.Enums;
 
-namespace Astro.API.Application.Request.Post
+namespace Astro.API.Application.Request.Update
 {
-    public class CelestialPostRequestModel
+    public class CelestialUpdateRequestModel
     {
-        public CelestialPostRequestModel()
+        public CelestialUpdateRequestModel()
         {
-            Distances = new Collection<DistancePostRequestModel>();
+            Distances = new Collection<DistanceUpdateRequestModel>();
         }
+
+        public int Id { get; set; }
 
         public ObjectType ObjectType { get; set; }
 
@@ -29,6 +31,6 @@ namespace Astro.API.Application.Request.Post
 
         public string Description { get; set; }
 
-        public ICollection<DistancePostRequestModel> Distances { get; set; }
+        public ICollection<DistanceUpdateRequestModel> Distances { get; set; }
     }
 }
