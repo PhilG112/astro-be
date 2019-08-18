@@ -10,6 +10,7 @@ namespace Astro.API.Controllers
 {
     [Produces("application/json")]
     [Route("celestial")]
+    [ApiController]
     public class CelestialController : Controller
     {
         private readonly ICelestialStore _store;

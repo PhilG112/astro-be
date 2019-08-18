@@ -41,7 +41,7 @@ CREATE TABLE dbo.Distances
 (
 	CelestialObjectId INT NOT NULL,
 	DistanceType VARCHAR(20) NOT NULL,
-	Value DECIMAL(25,3) NOT NULL,
+	Value DECIMAL(20,3) NOT NULL,
 	Tolerance DECIMAL(15,3) NULL,
 	CONSTRAINT FK_CelesstialObjects_Id FOREIGN KEY (CelestialObjectId) REFERENCES dbo.CelestialObjects (Id) ON DELETE CASCADE
 )

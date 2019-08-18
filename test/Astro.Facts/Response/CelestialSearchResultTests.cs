@@ -1,18 +1,17 @@
 ﻿using System;
-using Astro.API.Application.Extensions;
-using Astro.API.Application.Response.Get;
-using Astro.Facts.TestHelpers;
+using System.Collections.Generic;
+using Astro.API.Application.Response.Search;
 using FluentAssertions;
 using Xunit;
 
 namespace Astro.Facts.Response
 {
-    public class CelestialGetResultTests
+    public class CelestialSearchResultTests
     {
         [Fact]
         public void Result_Object_HasException_Should_Be_True_If_Exception_Exists()
         {
-            var expected = new CelestialGetResult(new Exception());
+            var expected = new CelestialSearchQueryResult(new Exception());
 
             expected.HasException.Should().BeTrue();
         }
@@ -20,7 +19,7 @@ namespace Astro.Facts.Response
         [Fact]
         public void Result_Object_HasException_Should_Be_False_If_Exception_Not_Exists()
         {
-            var expected = new CelestialGetResult(ex: null);
+            var expected = new CelestialSearchQueryResult(ex: null);
 
             expected.HasException.Should().BeFalse();
         }
@@ -28,7 +27,7 @@ namespace Astro.Facts.Response
         [Fact]
         public void Result_Object_NotFound_Should_Be_True_If_Given_True()
         {
-            var expected = new CelestialGetResult(true);
+            var expected = new CelestialSearchQueryResult(true);
 
             expected.NotFound.Should().BeTrue();
         }
@@ -36,7 +35,7 @@ namespace Astro.Facts.Response
         [Fact]
         public void Result_Object_NotFound_Should_Be_False_If_Given_False()
         {
-            var expected = new CelestialGetResult(false);
+            var expected = new CelestialSearchQueryResult(false);
 
             expected.NotFound.Should().BeFalse();
         }
@@ -44,10 +43,15 @@ namespace Astro.Facts.Response
         [Fact]
         public void Result_Object_Result_Should_Not_Be_Null_With_Valid_Value()
         {
-            var model = CelestialObjectsHelper.GetDefaultEntityModel().ToResponseModel();
-            var expected = new CelestialGetResult(model);
+            var models = new List<CelestialSearchQueryResultModel>
+            {
+                new CelestialSearchQueryResultModel { Id = 1, Designation1 = "Desg1" },
+                new CelestialSearchQueryResultModel { Id = 2, Designation1 = "Desg1" }
+            };
 
-            expected.Result.Should().NotBeNull();
+            var expected = new CelestialSearchQueryResult(models);
+
+            expected.Results.Should().NotBeNullOrEmpty();
         }
     }
 }
