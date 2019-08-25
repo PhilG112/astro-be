@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Astro.API.Application.Request.Post;
 using Astro.API.Application.Request.Update;
 using Astro.API.Application.Stores.Celestial;
-using Astro.API.Application.Validators;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Astro.API.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("celestial")]
     [ApiController]

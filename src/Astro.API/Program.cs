@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Astro.API.Application;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +37,13 @@ namespace Astro.API
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{Constants.Environments.CurrentAspNetEnv}.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
+
+            if (Constants.Environments.CurrentAspNetEnv == Constants.Environments.Development)
+            {
+                config.AddUserSecrets<Startup>();
+            }
 
             InitLogging(config.Build());
         }
@@ -44,13 +51,15 @@ namespace Astro.API
         private static void InitLogging(IConfigurationRoot configRoot)
         {
             var loggerConfig = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .WriteTo.Console(LogEventLevel.Verbose)
-                .WriteTo.File("log.txt", LogEventLevel.Verbose);
+                .Enrich.FromLogContext();
 
-            var seqServerUrl = configRoot.GetValue<string>("SeqServerUrl");
-            loggerConfig.WriteTo.Seq(seqServerUrl, LogEventLevel.Information);
-
+            if (Constants.Environments.CurrentAspNetEnv == Constants.Environments.Development)
+            {
+                var seqServerUrl = configRoot.GetValue<string>("SeqServerUrl");
+                loggerConfig.WriteTo.Seq(seqServerUrl, LogEventLevel.Information);
+                loggerConfig.WriteTo.Console(LogEventLevel.Verbose);
+                loggerConfig.WriteTo.File("log.txt", LogEventLevel.Verbose);
+            }
             Log.Logger = loggerConfig.CreateLogger();
         }
     }

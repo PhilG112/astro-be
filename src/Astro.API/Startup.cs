@@ -1,11 +1,16 @@
 ﻿using System.Linq;
+using System.Text;
+using Astro.API.Application.Auth;
 using Astro.API.Application.Stores.Celestial;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.Swagger;
@@ -37,6 +42,26 @@ namespace Astro.API
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
                 });
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                var secretKey = Configuration.GetValue<string>("AppSecret");
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey))
+                };
+            });
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = (context) =>
@@ -64,6 +89,13 @@ namespace Astro.API
                 var connString = Configuration.GetConnectionString("Astro");
                 return new CelestialStore(connString);
             });
+
+            services.AddSingleton<ILogInManager>(_ =>
+            {
+                var connString = Configuration.GetConnectionString("Astro");
+                var secretKey = Configuration.GetValue<string>("AppSecret");
+                return new LogInManager(connString, secretKey);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,8 +118,8 @@ namespace Astro.API
             });
 
             app.UseHttpsRedirection();
-
-            app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod());
+            app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+            app.UseAuthentication();
             app.UseMvc();
         }
 

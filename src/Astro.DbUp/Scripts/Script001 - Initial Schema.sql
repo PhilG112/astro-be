@@ -47,3 +47,11 @@ CREATE TABLE dbo.Distances
 )
 GO
 CREATE CLUSTERED INDEX IDX_CelestialObjectId on dbo.Distances (CelestialObjectId)
+GO
+CREATE TABLE dbo.Users
+(
+	Id INT IDENTITY(1,1),
+	UserName VARCHAR(40) NOT NULL,
+	PasswordHash VARCHAR(100) NOT NULL,
+	Salt VARCHAR(100) NOT NULL
+)
