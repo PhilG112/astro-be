@@ -56,7 +56,7 @@ namespace Astro.API
             if (Constants.Environments.CurrentAspNetEnv == Constants.Environments.Development)
             {
                 var seqServerUrl = configRoot.GetValue<string>("SeqServerUrl");
-                loggerConfig.WriteTo.Seq(seqServerUrl, LogEventLevel.Information);
+                loggerConfig.WriteTo.Seq(seqServerUrl, LogEventLevel.Verbose);
                 loggerConfig.WriteTo.Console(LogEventLevel.Verbose);
                 loggerConfig.WriteTo.File("log.txt", LogEventLevel.Verbose);
             }

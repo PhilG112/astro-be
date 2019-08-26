@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
+using Astro.API.Application.Response.LogIn;
 using Dapper;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.IdentityModel.Tokens;
@@ -22,36 +23,49 @@ namespace Astro.API.Application.Auth
             _secretKey = secretKey;
         }
 
-        public async Task<string> LogIn(string userName, string password)
+        public async Task<LogInRequestResult> LogIn(string userName, string password)
         {
             using (var conn = new SqlConnection(_connString))
             {
-                await conn.OpenAsync();
-
-                var sql = $@"SELECT * FROM dbo.Users as u
-                             WHERE u.UserName = @UserName";
-
-                var query = await conn.QueryFirstOrDefaultAsync<AppUser>(sql, new { UserName = userName });
-                if (query == null)
+                try
                 {
-                    _log.Error($"No such user: {userName}");
-                    return null;
-                }
+                    await conn.OpenAsync();
 
-                var correctPassword = VerifyPassword(password, query.PasswordHash, query.Salt);
-                if (!correctPassword)
+                    var sql = $@"SELECT * FROM dbo.Users as u
+                                 WHERE u.UserName = @UserName";
+
+                    var query = await conn.QueryFirstOrDefaultAsync<AppUser>(sql, new { UserName = userName });
+                    if (query == null)
+                    {
+                        _log.Error($"No such user: {userName}");
+                        return new LogInRequestResult(notFound: true);
+                    }
+
+                    var correctPassword = VerifyPassword(password, query.PasswordHash, query.Salt);
+                    if (!correctPassword)
+                    {
+                        _log.Error($"Invalid password for user: {userName} - password: {password}");
+                        return new LogInRequestResult(notFound: true);
+                    }
+
+                    var secretKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
+                    var signInCreds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
+                    var tokenOptions = new JwtSecurityToken(
+                        expires: DateTime.Now.AddHours(1),
+                        signingCredentials: signInCreds);
+
+                    var result = new LogInRequestResponseModel
+                    {
+                        Token = new JwtSecurityTokenHandler().WriteToken(tokenOptions)
+                    };
+
+                    return new LogInRequestResult(result);
+                }
+                catch (Exception ex)
                 {
-                    _log.Error($"Invalid password for user: {userName} - password: {password}");
-                    return null;
+                    _log.Error(ex, "Unable to login.");
+                    return new LogInRequestResult(ex);
                 }
-
-                var secretKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
-                var signInCreds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
-                var tokenOptions = new JwtSecurityToken(
-                    expires: DateTime.Now.AddHours(1),
-                    signingCredentials: signInCreds);
-
-                return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
             }
         }
 

@@ -1,19 +1,23 @@
 ﻿using Astro.API;
 using Astro.Integration.Celestial;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Astro.Integration
 {
-    public class TestStartup : Startup
+    public class TestStartup
     {
-        public TestStartup(IConfiguration config)
-            : base(config)
-        { }
-
-        protected override void ConfigureTestServices(IServiceCollection services)
+        public TestStartup(IConfiguration configuration)
         {
-            services.AddSingleton(CelestialStoreMock.GetStoreMock());
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
         }
     }
 }

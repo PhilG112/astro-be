@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Astro.API.Application.Response.LogIn;
+using System.Threading.Tasks;
 
 namespace Astro.API.Application.Auth
 {
     public interface ILogInManager
     {
-        Task<string> LogIn(string userName, string password);
+        Task<LogInRequestResult> LogIn(string userName, string password);
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Astro.API.Controllers
 {
+    [ApiController]
     public class AccountController : Controller
     {
         private readonly ILogInManager _logInManager;
@@ -15,16 +16,21 @@ namespace Astro.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]LoginRequestModel request)
+        public async Task<IActionResult> Login([FromBody]LogInRequestModel request)
         {
             var result = await _logInManager.LogIn(request.UserName, request.Password);
 
-            if (result == null)
+            if (result.HasException)
+            {
+                return StatusCode(500);
+            }
+
+            if (result.NotFound)
             {
                 return BadRequest();
             }
 
-            return Ok(new { Token = result });
+            return Ok(result.Result);
         }
     }
 }

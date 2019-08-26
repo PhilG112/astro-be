@@ -8,13 +8,14 @@ namespace Astro.Integration.Celestial
     public class CelestialControllerTests : CelestialBase
     {
         [Fact]
-        public async Task When_get_is_called_should_be_success_response()
+        public async Task When_Get_Is_Called_Without_JWT_Then_Should_Be_Unauthorized_Response()
         {
-            // Act
-            var response = await Client.GetAsync(ApiEndpoints.Get);
+            using (var server = CreateServer())
+            {
+                var response = await server.CreateClient().GetAsync(ApiEndpoints.Get(1));
 
-            // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+                response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            }
         }
     }
 }

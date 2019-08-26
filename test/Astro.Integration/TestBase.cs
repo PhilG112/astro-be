@@ -2,21 +2,15 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
-using Serilog;
-using System;
 using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Astro.Integration
 {
-    public class TestBase : IDisposable
+    public class TestBase
     {
-        private readonly TestServer _server;
+        protected const string ApiUrlBase = "celestial";
 
-        protected HttpClient Client { get; }
-
-        protected TestBase()
+        public TestServer CreateServer()
         {
             var builder = WebHost.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((ctx, config) =>
@@ -25,18 +19,10 @@ namespace Astro.Integration
                         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                         .AddEnvironmentVariables();
                 })
-                .UseSerilog()
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<TestStartup>();
 
-            _server = new TestServer(builder);
-
-            Client = _server.CreateClient();
-        }
-
-        public void Dispose()
-        {
-            Client.Dispose();
-            _server.Dispose();
+            return new TestServer(builder);
         }
     }
 }

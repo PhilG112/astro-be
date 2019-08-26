@@ -1,6 +1,6 @@
 ﻿namespace Astro.API.Application.Request.Post
 {
-    public class LoginRequestModel
+    public class LogInRequestModel
     {
         public string UserName { get; set; }
 
