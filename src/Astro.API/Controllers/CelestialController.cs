@@ -57,6 +57,7 @@ namespace Astro.API.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCelestialObject([FromBody]CelestialPostRequestModel request)
         {
             var result = await _store.CreateCelestialObject(request);
@@ -70,6 +71,7 @@ namespace Astro.API.Controllers
         }
 
         [HttpPatch]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateCelestialObject([FromBody]CelestialUpdateRequestModel request)
         {
             var result = await _store.UpdateCelestialObject(request);
