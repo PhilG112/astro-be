@@ -76,7 +76,7 @@ namespace Astro.API.Application.Auth
                 salt: Convert.FromBase64String(passwordSalt),
                 prf: KeyDerivationPrf.HMACSHA512,
                 iterationCount: 10000,
-                numBytesRequested: 256 / 8));
+                numBytesRequested: 128));
 
             return string.Equals(given, passwordHash);
         }
