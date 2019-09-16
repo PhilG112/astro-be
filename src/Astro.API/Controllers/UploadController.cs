@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Astro.API.Application.Services.Upload;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -11,8 +12,11 @@ namespace Astro.API.Controllers
     [Produces("application/json")]
     public class UploadController : Controller
     {
-        public UploadController()
+        private readonly IUploadService _uploadService;
+
+        public UploadController(IUploadService uploadService)
         {
+            _uploadService = uploadService;
         }
 
         [HttpPost("instagram")]

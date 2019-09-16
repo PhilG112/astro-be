@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Astro.API.Application.Response.LogIn;
 using Dapper;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
@@ -47,6 +48,8 @@ namespace Astro.API.Application.Auth
                         _log.Error($"Invalid password for user: {userName} - password: {password}");
                         return new LogInRequestResult(notFound: true);
                     }
+
+                    Log.Information($"Login OK. UTC: {DateTime.UtcNow}");
 
                     var secretKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
                     var signInCreds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);

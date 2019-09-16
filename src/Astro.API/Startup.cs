@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using Astro.API.Application.Auth;
+using Astro.API.Application.Services.Upload;
 using Astro.API.Application.Stores.Celestial;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -95,6 +97,12 @@ namespace Astro.API
                 var connString = Configuration.GetConnectionString("Astro");
                 var secretKey = Configuration.GetValue<string>("AppSecret");
                 return new LogInManager(connString, secretKey);
+            });
+
+            services.AddSingleton<IUploadService>(_ =>
+            {
+                // TODO: Credentials for different api services
+                throw new NotImplementedException();
             });
         }
 
