@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Astro.API.Application.Response.LogIn;
 using Dapper;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
@@ -49,17 +48,17 @@ namespace Astro.API.Application.Auth
                         return new LogInRequestResult(notFound: true);
                     }
 
-                    Log.Information($"Login OK. UTC: {DateTime.UtcNow}");
+                    Log.Information($"Login OK. By: {userName}. UTC: {DateTime.UtcNow}.");
 
                     var secretKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
                     var signInCreds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
-                    var tokenOptions = new JwtSecurityToken(
-                        expires: DateTime.Now.AddHours(1),
+                    var securityToken = new JwtSecurityToken(
+                        expires: Constants.JwtToken.ExpireTime,
                         signingCredentials: signInCreds);
 
                     var result = new LogInRequestResponseModel
                     {
-                        Token = new JwtSecurityTokenHandler().WriteToken(tokenOptions)
+                        Token = new JwtSecurityTokenHandler().WriteToken(securityToken)
                     };
 
                     return new LogInRequestResult(result);

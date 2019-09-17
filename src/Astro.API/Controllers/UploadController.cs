@@ -1,7 +1,9 @@
 ﻿using Astro.API.Application.Services.Upload;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Astro.API.Controllers
@@ -21,7 +23,7 @@ namespace Astro.API.Controllers
 
         [HttpPost("instagram")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Instagram()
+        public async Task<IActionResult> Instagram(IEnumerable<IFormFile> files)
         {
             throw new NotImplementedException();
         }
