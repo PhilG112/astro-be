@@ -34,7 +34,10 @@ namespace Astro.API.Application.Auth
                     var sql = $@"SELECT * FROM dbo.Users as u
                                  WHERE u.UserName = @UserName";
 
-                    var query = await conn.QueryFirstOrDefaultAsync<AppUser>(sql, new { UserName = userName });
+                    var query = await conn.QueryFirstOrDefaultAsync<AppUser>(
+                        sql,
+                        new { UserName = userName });
+
                     if (query == null)
                     {
                         _log.Error($"No such user: {userName}");
@@ -44,7 +47,7 @@ namespace Astro.API.Application.Auth
                     var correctPassword = VerifyPassword(password, query.PasswordHash, query.Salt);
                     if (!correctPassword)
                     {
-                        _log.Error($"Invalid password for user: {userName} - password: {password}");
+                        _log.Error($"Invalid password for user: {userName}");
                         return new LogInRequestResult(notFound: true);
                     }
 
