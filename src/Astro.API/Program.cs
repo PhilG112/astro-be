@@ -60,6 +60,7 @@ namespace Astro.API
                 loggerConfig.WriteTo.Console(LogEventLevel.Verbose);
                 loggerConfig.WriteTo.File("log.txt", LogEventLevel.Verbose);
             }
+
             Log.Logger = loggerConfig.CreateLogger();
         }
     }

@@ -11,14 +11,14 @@ namespace Astro.API.Application.Stores.Celestial
 {
     public interface ICelestialStore
     {
-        Task<CelestialGetResult> GetCelestialObject(int id);
+        Task<CelestialGetResult> GetCelestialObjectAsync(int id);
 
-        Task<CelestialSearchQueryResult> SearchCelestialObject(string searchText);
+        Task<CelestialSearchQueryResult> SearchCelestialObjectAsync(string searchText);
 
-        Task<CelestialCreateResult> CreateCelestialObject(CelestialPostRequestModel request);
+        Task<CelestialCreateResult> CreateCelestialObjectAsync(CelestialPostRequestModel request);
 
-        Task<CelestialUpdateResult> UpdateCelestialObject(CelestialUpdateRequestModel request);
+        Task<CelestialUpdateResult> UpdateCelestialObjectAsync(CelestialUpdateRequestModel request);
 
-        Task<CelestialDeleteResult> DeleteCelestialObject(int id);
+        Task<CelestialDeleteResult> DeleteCelestialObjectAsync(int id);
     }
 }

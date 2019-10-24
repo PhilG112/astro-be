@@ -36,7 +36,7 @@ namespace Astro.Integration.Celestial
 
             var getResult = new CelestialGetResult(getModel);
 
-            mockStore.Setup(x => x.GetCelestialObject(It.IsAny<int>())).ReturnsAsync(getResult);
+            mockStore.Setup(x => x.GetCelestialObjectAsync(It.IsAny<int>())).ReturnsAsync(getResult);
 
             return mockStore.Object;
         }

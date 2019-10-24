@@ -1,10 +1,11 @@
-﻿using Astro.API.Application.Services.Upload;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Astro.API.Application.Request.Post;
+using Astro.API.Application.Services.Upload;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Astro.API.Controllers
 {
@@ -37,7 +38,7 @@ namespace Astro.API.Controllers
 
         [HttpPost("blob")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Blob()
+        public async Task<IActionResult> Blob(FileUploadRequestModel request)
         {
             throw new NotImplementedException();
         }

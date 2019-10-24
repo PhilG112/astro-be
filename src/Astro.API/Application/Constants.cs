@@ -15,5 +15,11 @@ namespace Astro.API.Application
         {
             public static DateTime ExpireTime = DateTime.Now.AddHours(1);
         }
+
+        public static class ConnectionStrings
+        {
+            public static string StorageAccount = nameof(StorageAccount);
+            public static string Astro = nameof(Astro);
+        }
     }
 }

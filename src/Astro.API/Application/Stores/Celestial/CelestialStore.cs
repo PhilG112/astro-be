@@ -27,7 +27,7 @@ namespace Astro.API.Application.Stores.Celestial
             _connString = connString;
         }
 
-        public async Task<CelestialGetResult> GetCelestialObject(int id)
+        public async Task<CelestialGetResult> GetCelestialObjectAsync(int id)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Astro.API.Application.Stores.Celestial
             }
         }
 
-        public async Task<CelestialSearchQueryResult> SearchCelestialObject(string searchText)
+        public async Task<CelestialSearchQueryResult> SearchCelestialObjectAsync(string searchText)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace Astro.API.Application.Stores.Celestial
             }
         }
 
-        public async Task<CelestialCreateResult> CreateCelestialObject(CelestialPostRequestModel request)
+        public async Task<CelestialCreateResult> CreateCelestialObjectAsync(CelestialPostRequestModel request)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace Astro.API.Application.Stores.Celestial
             }
         }
 
-        public async Task<CelestialUpdateResult> UpdateCelestialObject(CelestialUpdateRequestModel request)
+        public async Task<CelestialUpdateResult> UpdateCelestialObjectAsync(CelestialUpdateRequestModel request)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace Astro.API.Application.Stores.Celestial
             }
         }
 
-        public async Task<CelestialDeleteResult> DeleteCelestialObject(int id)
+        public async Task<CelestialDeleteResult> DeleteCelestialObjectAsync(int id)
         {
             try
             {

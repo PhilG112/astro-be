@@ -23,7 +23,7 @@ namespace Astro.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCelestialObject(int id)
         {
-            var result = await _store.GetCelestialObject(id);
+            var result = await _store.GetCelestialObjectAsync(id);
 
             if (result.NotFound)
             {
@@ -41,7 +41,7 @@ namespace Astro.API.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> SearchCelestialObject([FromQuery]string text)
         {
-            var result = await _store.SearchCelestialObject(text);
+            var result = await _store.SearchCelestialObjectAsync(text);
 
             if (result.NotFound)
             {
@@ -60,7 +60,7 @@ namespace Astro.API.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCelestialObject([FromBody]CelestialPostRequestModel request)
         {
-            var result = await _store.CreateCelestialObject(request);
+            var result = await _store.CreateCelestialObjectAsync(request);
 
             if (result.HasException)
             {
@@ -74,7 +74,7 @@ namespace Astro.API.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateCelestialObject([FromBody]CelestialUpdateRequestModel request)
         {
-            var result = await _store.UpdateCelestialObject(request);
+            var result = await _store.UpdateCelestialObjectAsync(request);
 
             if (result.HasException)
             {
@@ -87,7 +87,7 @@ namespace Astro.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCelestialObject(int id)
         {
-            var result = await _store.DeleteCelestialObject(id);
+            var result = await _store.DeleteCelestialObjectAsync(id);
 
             if (result.HasException)
             {

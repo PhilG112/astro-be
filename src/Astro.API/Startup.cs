@@ -86,27 +86,12 @@ namespace Astro.API
                 c.SwaggerDoc("v1", new Info { Title = "Astro API", Version = "v1" });
             });
 
-            services.AddSingleton<ICelestialStore>(_ =>
-            {
-                var connString = Configuration.GetConnectionString("Astro");
-                return new CelestialStore(connString);
-            });
-
-            services.AddSingleton<ILogInManager>(_ =>
-            {
-                var connString = Configuration.GetConnectionString("Astro");
-                var secretKey = Configuration.GetValue<string>("AppSecret");
-                return new LogInManager(connString, secretKey);
-            });
-
-            services.AddSingleton<IUploadService>(_ =>
-            {
-                // TODO: Credentials for different api services
-                throw new NotImplementedException();
-            });
+            services.AddCelestialStore(Configuration);
+            services.AddLogInManager(Configuration);
+            services.AddBlobStorageClient(Configuration);
+            services.AddSingleton<IUploadService, UploadService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
