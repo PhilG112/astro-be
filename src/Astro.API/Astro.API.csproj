@@ -7,7 +7,7 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <UserSecretsId>cc1dfcf5-cbdb-43c1-b6a0-41afbad49db5</UserSecretsId>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Compile Remove="Application\Models\**" />
     <Content Remove="Application\Models\**" />

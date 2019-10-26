@@ -23,10 +23,13 @@ namespace Astro.API
 
         public static IApplicationBuilder UseBlobStorageClient(this IApplicationBuilder app)
         {
-            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            var c = serviceScope.ServiceProvider.GetRequiredService<BlobStorageClient>();
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var c = serviceScope.ServiceProvider.GetRequiredService<BlobStorageClient>();
 
-            Task.WaitAll(c.InitBlob().ToArray());
+                Task.WaitAll(c.InitBlob().ToArray());
+            }
+
             return app;
         }
     }
