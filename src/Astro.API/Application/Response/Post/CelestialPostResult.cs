@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Astro.API.Application.Response.Create
+namespace Astro.API.Application.Response.Post
 {
-    public class CelestialCreateResult
+    public class CelestialPostResult
     {
-        public CelestialCreateResult(int result)
+        public CelestialPostResult(int result)
         {
             Result = result;
         }
 
-        public CelestialCreateResult(Exception ex)
+        public CelestialPostResult(Exception ex)
         {
             Exception = ex;
         }

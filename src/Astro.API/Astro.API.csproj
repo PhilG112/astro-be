@@ -14,6 +14,7 @@
     <EmbeddedResource Remove="Application\Models\**" />
     <None Remove="Application\Models\**" />
   </ItemGroup>
+ 
   
   <ItemGroup>
     <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Create.sql" />
@@ -35,6 +36,10 @@
     <EmbeddedResource Include="Properties\Sql\Distances\Distances_Create.sql" />
     <EmbeddedResource Include="Properties\Sql\Distances\Distances_Get.sql" />
     <EmbeddedResource Include="Properties\Sql\Distances\Distances_Update.sql" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="Startup.ApiBehaviorOptions.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Astro.API.Application.Clients;
 using Astro.API.Application.Request.Post;
+using Astro.API.Application.Response.Post;
 using Serilog;
 
 namespace Astro.API.Application.Services.Upload
@@ -18,9 +18,24 @@ namespace Astro.API.Application.Services.Upload
             _blobClient = blobClient;
         }
 
-        public Task UploadToBlobAsync(FileUploadRequestModel request)
+        public async Task<UploadPostResult> UploadToBlobAsync(FileUploadRequestModel request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                foreach (var f in request.FormFiles)
+                {
+                    var blob = _blobClient.GetBlob(f.FileName);
+                    await blob.UploadFromStreamAsync(f.OpenReadStream());
+                }
+
+                return new UploadPostResult();
+            }
+            catch (Exception ex)
+            {
+                var fileNames = string.Join(";", request.FormFiles.Select(x => x.FileName));
+                _log.Error(ex, $"Error during file uploads: {fileNames}");
+                return new UploadPostResult(ex);
+            }
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿using Astro.API.Application;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Astro.API.Application;
 using Astro.API.Application.Clients;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +19,15 @@ namespace Astro.API
             services.AddSingleton(_ => new BlobStorageClient(connString));
 
             return services;
+        }
+
+        public static IApplicationBuilder UseBlobStorageClient(this IApplicationBuilder app)
+        {
+            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            var c = serviceScope.ServiceProvider.GetRequiredService<BlobStorageClient>();
+
+            Task.WaitAll(c.InitBlob().ToArray());
+            return app;
         }
     }
 }

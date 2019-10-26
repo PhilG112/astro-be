@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Astro.API.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("upload")]
     [Produces("application/json")]
     public class UploadController : Controller
@@ -37,10 +36,17 @@ namespace Astro.API.Controllers
         }
 
         [HttpPost("blob")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Blob(FileUploadRequestModel request)
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Blob([FromForm]FileUploadRequestModel request)
         {
-            throw new NotImplementedException();
+            var result = await _uploadService.UploadToBlobAsync(request);
+
+            if (result.HasException)
+            {
+                return StatusCode(500);
+            }
+
+            return Created("/upload/blob", null);
         }
     }
 }

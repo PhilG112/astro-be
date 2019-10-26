@@ -64,28 +64,8 @@ namespace Astro.API
                 };
             });
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = (context) =>
-                {
-                    var errors = context.ModelState.Values
-                        .SelectMany(x => x.Errors.Select(e => e.ErrorMessage)).ToList();
-
-                    var result = new
-                    {
-                        Message = "Validation Errors",
-                        Errors = errors
-                    };
-
-                    return new BadRequestObjectResult(result);
-                };
-            });
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "Astro API", Version = "v1" });
-            });
-
+            services.ConfigureApiBehaviourOptions();
+            services.AddSwagger();
             services.AddCelestialStore(Configuration);
             services.AddLogInManager(Configuration);
             services.AddBlobStorageClient(Configuration);
@@ -105,15 +85,11 @@ namespace Astro.API
             }
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Astro API v1");
-            });
-
             app.UseHttpsRedirection();
             app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseMvc();
+            app.UseBlobStorageClient();
         }
 
         protected virtual void ConfigureTestServices(IServiceCollection services)
