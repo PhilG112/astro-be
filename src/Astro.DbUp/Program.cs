@@ -34,9 +34,9 @@ namespace Astro.DbUp
                 Console.WriteLine(result.Error);
                 Console.ResetColor();
 
-#if DEBUG
+                #if DEBUG
                 Console.ReadKey();
-#endif
+                #endif
                 return;
             }
 
@@ -44,9 +44,9 @@ namespace Astro.DbUp
             Console.WriteLine("Success!");
             Console.ResetColor();
 
-#if DEBUG
+            #if DEBUG
             Console.ReadKey();
-#endif
+            #endif
         }
     }
 }
