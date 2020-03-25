@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace Astro.API
 {
@@ -11,7 +11,7 @@ namespace Astro.API
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Astro API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Astro API", Version = "v1" });
             });
 
             return services;
