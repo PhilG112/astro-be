@@ -1,5 +1,5 @@
 ﻿UPDATE dbo.CelestialObjects
-SET 
+SET (
 	ObjectType = @ObjectType,
 	Magnitude = @Magnitude,
 	AbsoluteMagnitude = @AbsoluteMagnitude,
@@ -9,4 +9,5 @@ SET
 	Designation3 = @Designation3,
 	Designation4 = @Designation4,
 	Description = @Description
+)
 WHERE Id = @Id
