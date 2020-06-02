@@ -6,11 +6,6 @@ namespace Astro.API.Application.Request.Update
 {
     public class CelestialUpdateRequestModel
     {
-        public CelestialUpdateRequestModel()
-        {
-            Distances = new Collection<DistanceUpdateRequestModel>();
-        }
-
         public int Id { get; set; }
 
         public ObjectType ObjectType { get; set; }
@@ -30,7 +25,5 @@ namespace Astro.API.Application.Request.Update
         public string Designation4 { get; set; }
 
         public string Description { get; set; }
-
-        public ICollection<DistanceUpdateRequestModel> Distances { get; set; }
     }
 }

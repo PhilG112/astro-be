@@ -11,13 +11,5 @@
             public static readonly string CelestialObject_Update = $"{BaseResourceName}.CelestialObject_Update.sql";
             public static readonly string CelestialObject_Delete = $"{BaseResourceName}.CelestialObject_Delete.sql";
         }
-
-        public static class Distances
-        {
-            private const string BaseResourceName = "Astro.API.Properties.Sql.Distances";
-            public static readonly string Distances_Get = $"{BaseResourceName}.Distances_Get.sql";
-            public static readonly string Distances_Create = $"{BaseResourceName}.Distances_Create.sql";
-            public static readonly string Distances_Update = $"{BaseResourceName}.Distances_Update.sql";
-        }
     }
 }
