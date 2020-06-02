@@ -19,16 +19,8 @@ namespace Astro.API.Application.Extensions
                 Designation1 = model.Designation1,
                 Designation2 = model.Designation2,
                 Designation3 = model.Designation3,
-                Designation4 = model.Designation4,
-                Distances = model.Distances.Select(d => new DistanceGetResponseModel
-                {
-                    CelestialObjectId = d.CelestialObjectId,
-                    DistanceType = d.DistanceType,
-                    Tolerance = d.Tolerance,
-                    Value = d.Value
-                }).ToList()
+                Designation4 = model.Designation4
             };
         }
-
     }
 }

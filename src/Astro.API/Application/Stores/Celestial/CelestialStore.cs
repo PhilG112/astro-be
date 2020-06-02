@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Astro.API.Application.Extensions;
 using Astro.API.Application.Request.Post;
 using Astro.API.Application.Request.Update;
-using Astro.API.Application.Response.Post;
 using Astro.API.Application.Response.Delete;
 using Astro.API.Application.Response.Get;
+using Astro.API.Application.Response.Post;
 using Astro.API.Application.Response.Search;
 using Astro.API.Application.Response.Update;
 using Astro.API.Application.Stores.EntityModels;
@@ -44,12 +44,6 @@ namespace Astro.API.Application.Stores.Celestial
                         return new CelestialGetResult(notFound: true);
                     }
 
-                    var distances = await conn.QueryAsync<DistanceEntityModel>(
-                        SqlLoader.GetSql(SqlResourceNames.Distances.Distances_Get),
-                        new { @CelestialObjectId = celestialObject.Id });
-
-                    celestialObject.Distances = distances.ToList();
-
                     return new CelestialGetResult(celestialObject.ToResponseModel());
                 }
             }
@@ -64,21 +58,19 @@ namespace Astro.API.Application.Stores.Celestial
         {
             try
             {
-                using (var conn = new SqlConnection(_connString))
+                using var conn = new SqlConnection(_connString);
+                await conn.OpenAsync();
+
+                var searchResult = await conn.QueryAsync<CelestialSearchQueryResultModel>(
+                    SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Search),
+                    new { searchText = $"\"{searchText}*\"" });
+
+                if (!searchResult.Any())
                 {
-                    await conn.OpenAsync();
-
-                    var searchResult = await conn.QueryAsync<CelestialSearchQueryResultModel>(
-                        SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Search),
-                        new { searchText = $"\"{searchText}*\"" });
-
-                    if (!searchResult.Any())
-                    {
-                        return new CelestialSearchQueryResult(notFound: true);
-                    }
-
-                    return new CelestialSearchQueryResult(searchResult);
+                    return new CelestialSearchQueryResult(notFound: true);
                 }
+
+                return new CelestialSearchQueryResult(searchResult);
             }
             catch (Exception ex)
             {
@@ -91,44 +83,27 @@ namespace Astro.API.Application.Stores.Celestial
         {
             try
             {
-                using (var conn = new SqlConnection(_connString))
+                using var conn = new SqlConnection(_connString);
+                await conn.OpenAsync();
+
+                var sqlParams = new
                 {
-                    await conn.OpenAsync();
+                    ObjectType = request.ObjectType.ToString(),
+                    request.Magnitude,
+                    request.AbsoluteMagnitude,
+                    request.Name,
+                    request.Designation1,
+                    request.Designation2,
+                    request.Designation3,
+                    request.Designation4,
+                    request.Description
+                };
 
-                    var cParams = new
-                    {
-                        ObjectType = request.ObjectType.ToString(),
-                        request.Magnitude,
-                        request.AbsoluteMagnitude,
-                        request.Name,
-                        request.Designation1,
-                        request.Designation2,
-                        request.Designation3,
-                        request.Designation4,
-                        request.Description
-                    };
+                var createResultId = await conn.QuerySingleAsync<int>(
+                    SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Create),
+                    sqlParams);
 
-                    var createResultId = await conn.QuerySingleAsync<int>(
-                        SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Create),
-                        cParams);
-
-                    foreach (var distance in request.Distances)
-                    {
-                        var dParams = new
-                        {
-                            CelestialObjectId = createResultId,
-                            DistanceType = distance.DistanceType.ToString(),
-                            distance.Tolerance,
-                            distance.Value
-                        };
-
-                        await conn.ExecuteAsync(
-                            SqlLoader.GetSql(SqlResourceNames.Distances.Distances_Create),
-                            dParams);
-                    }
-
-                    return new CelestialPostResult(createResultId);
-                }
+                return new CelestialPostResult(createResultId);
             }
             catch (Exception ex)
             {
@@ -141,43 +116,26 @@ namespace Astro.API.Application.Stores.Celestial
         {
             try
             {
-                using (var conn = new SqlConnection(_connString))
+                using var conn = new SqlConnection(_connString);
+                var sqlParams = new
                 {
-                    var cParams = new
-                    {
-                        request.Id,
-                        request.Magnitude,
-                        request.AbsoluteMagnitude,
-                        request.Name,
-                        ObjectType = request.ObjectType.ToString(),
-                        request.Designation1,
-                        request.Designation2,
-                        request.Designation3,
-                        request.Designation4,
-                        request.Description
-                    };
+                    request.Id,
+                    request.Magnitude,
+                    request.AbsoluteMagnitude,
+                    request.Name,
+                    ObjectType = request.ObjectType.ToString(),
+                    request.Designation1,
+                    request.Designation2,
+                    request.Designation3,
+                    request.Designation4,
+                    request.Description
+                };
 
-                    await conn.ExecuteAsync(
-                        SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Update),
-                        cParams);
+                await conn.ExecuteAsync(
+                    SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Update),
+                    sqlParams);
 
-                    foreach (var distance in request.Distances)
-                    {
-                        var dParams = new
-                        {
-                            CelestialObjectId = request.Id,
-                            DistanceType = distance.DistanceType.ToString(),
-                            distance.Value,
-                            distance.Tolerance
-                        };
-
-                        await conn.ExecuteAsync(
-                            SqlLoader.GetSql(SqlResourceNames.Distances.Distances_Update),
-                            dParams);
-                    }
-
-                    return new CelestialUpdateResult();
-                }
+                return new CelestialUpdateResult();
             }
             catch (Exception ex)
             {

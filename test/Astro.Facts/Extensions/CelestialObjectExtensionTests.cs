@@ -25,9 +25,6 @@ namespace Astro.Facts.Extensions
             Assert.Equal(expected.Designation2, actual.Designation2);
             Assert.Equal(expected.Designation3, actual.Designation3);
             Assert.Equal(expected.Designation4, actual.Designation4);
-            Assert.Equal(expected.Distances.First().DistanceType, actual.Distances.First().DistanceType);
-            Assert.Equal(expected.Distances.First().Value, actual.Distances.First().Value);
-            Assert.Equal(expected.Distances.First().Tolerance, actual.Distances.First().Tolerance);
         }
     }
 }

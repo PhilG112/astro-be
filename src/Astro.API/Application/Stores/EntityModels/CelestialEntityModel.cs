@@ -6,11 +6,6 @@ namespace Astro.API.Application.Stores.EntityModels
 {
     public class CelestialEntityModel
     {
-        public CelestialEntityModel()
-        {
-            Distances = new Collection<DistanceEntityModel>();
-        }
-
         public int Id { get; set; }
 
         public ObjectType ObjectType { get; set; }
@@ -28,7 +23,5 @@ namespace Astro.API.Application.Stores.EntityModels
         public string Designation3 { get; set; }
 
         public string Designation4 { get; set; }
-
-        public ICollection<DistanceEntityModel> Distances { get; set; }
     }
 }

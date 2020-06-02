@@ -50,53 +50,5 @@ namespace Astro.Facts.Validators
             validator.ShouldHaveValidationErrorFor(x => x.Designation4, _longName)
                 .WithErrorMessage("Designation4 is too long");
         }
-
-        [Fact]
-        public void When_Distances_Is_Null_Then_Should_Have_Error()
-        {
-            var obj = new CelestialUpdateRequestModel
-            {
-                Name = "Test",
-                Magnitude = 1.1,
-                AbsoluteMagnitude = 1.1,
-                Description = "test",
-                Designation1 = "test",
-                Designation2 = "test",
-                Designation3 = "test",
-                Designation4 = "test",
-                ObjectType = ObjectType.Galaxy,
-                Distances = null
-            };
-
-            var validator = new CelestialUpdateRequestValidator();
-            var result = validator.Validate(obj);
-
-            Assert.True(result.Errors.Count > 0);
-            Assert.Equal("Celestial object must have at least 1 distance", result.Errors[0].ErrorMessage);
-        }
-
-        [Fact]
-        public void When_Distances_Is_Empty_Then_Should_Have_Error()
-        {
-            var obj = new CelestialUpdateRequestModel
-            {
-                Name = "Test",
-                Magnitude = 1.1,
-                AbsoluteMagnitude = 1.1,
-                Description = "test",
-                Designation1 = "test",
-                Designation2 = "test",
-                Designation3 = "test",
-                Designation4 = "test",
-                ObjectType = ObjectType.Galaxy,
-                Distances = new List<DistanceUpdateRequestModel>()
-            };
-
-            var validator = new CelestialUpdateRequestValidator();
-            var result = validator.Validate(obj);
-
-            Assert.True(result.Errors.Count > 0);
-            Assert.Equal("Celestial object must have at least 1 distance", result.Errors[0].ErrorMessage);
-        }
     }
 }

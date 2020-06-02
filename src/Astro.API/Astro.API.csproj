@@ -6,25 +6,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>cc1dfcf5-cbdb-43c1-b6a0-41afbad49db5</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Application\Models\**" />
-    <Content Remove="Application\Models\**" />
-    <EmbeddedResource Remove="Application\Models\**" />
-    <None Remove="Application\Models\**" />
-  </ItemGroup>
- 
-  
-  <ItemGroup>
-    <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Create.sql" />
-    <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Delete.sql" />
-    <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Get.sql" />
-    <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Search.sql" />
-    <None Remove="Properties\Sql\CelestialObjects\CelestialObject_Update.sql" />
-    <None Remove="Properties\Sql\Distances\Distances_Create.sql" />
-    <None Remove="Properties\Sql\Distances\Distances_Get.sql" />
-    <None Remove="Properties\Sql\Distances\Distances_Update.sql" />
-  </ItemGroup>
   
   <ItemGroup>
     <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Create.sql" />
@@ -32,9 +13,6 @@
     <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Get.sql" />
     <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Search.sql" />
     <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Update.sql" />
-    <EmbeddedResource Include="Properties\Sql\Distances\Distances_Create.sql" />
-    <EmbeddedResource Include="Properties\Sql\Distances\Distances_Get.sql" />
-    <EmbeddedResource Include="Properties\Sql\Distances\Distances_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.30" />

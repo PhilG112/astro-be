@@ -23,15 +23,6 @@ namespace Astro.Integration.Celestial
                 Designation3 = null,
                 Designation4 = null,
                 ObjectType = ObjectType.Solar,
-                Distances = new Collection<DistanceGetResponseModel>
-                {
-                    new DistanceGetResponseModel
-                    {
-                        DistanceType = DistanceType.AU,
-                        Tolerance = 4.5,
-                        Value = 8.94
-                    }
-                }
             };
 
             var getResult = new CelestialGetResult(getModel);

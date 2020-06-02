@@ -12,7 +12,6 @@ namespace Astro.API.Application.Validators
             RuleFor(x => x.Designation2).MaximumLength(30).WithMessage("Designation2 is too long");
             RuleFor(x => x.Designation3).MaximumLength(30).WithMessage("Designation3 is too long");
             RuleFor(x => x.Designation4).MaximumLength(30).WithMessage("Designation4 is too long");
-            RuleFor(x => x.Distances).NotEmpty().WithMessage("Celestial object must have at least 1 distance");
         }
     }
 }

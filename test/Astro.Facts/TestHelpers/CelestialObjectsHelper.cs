@@ -18,17 +18,7 @@ namespace Astro.Facts.TestHelpers
                 Designation1 = "Messier31",
                 Designation2 = "M31",
                 Designation3 = "NGC224",
-                Designation4 = null,
-                Distances = new Collection<DistanceEntityModel>
-                {
-                    new DistanceEntityModel
-                    {
-                        CelestialObjectId = 1,
-                        DistanceType = DistanceType.LightYear,
-                        Value = 2500000,
-                        Tolerance = 110000
-                    }
-                }
+                Designation4 = null
             };
         }
     }
