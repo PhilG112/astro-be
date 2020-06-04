@@ -96,7 +96,9 @@ namespace Astro.API.Application.Stores.Celestial
                     request.Designation2,
                     request.Designation3,
                     request.Designation4,
-                    request.Description
+                    request.Description,
+                    request.Distance,
+                    request.DistanceTolerance
                 };
 
                 var createResultId = await conn.QuerySingleAsync<int>(
@@ -128,7 +130,9 @@ namespace Astro.API.Application.Stores.Celestial
                     request.Designation2,
                     request.Designation3,
                     request.Designation4,
-                    request.Description
+                    request.Description,
+                    request.Distance,
+                    request.DistanceTolerance
                 };
 
                 await conn.ExecuteAsync(
