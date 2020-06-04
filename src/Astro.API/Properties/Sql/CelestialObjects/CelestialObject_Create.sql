@@ -8,7 +8,9 @@
 	Designation2,
 	Designation3,
 	Designation4, 
-	Description
+	Description,
+	Distance,
+	DistanceTolerance
 )
 VALUES
 (
@@ -20,6 +22,8 @@ VALUES
 	@Designation2,
 	@Designation3,
 	@Designation4,
-	@Description
+	@Description,
+	@Distance,
+	@DistanceTolerance
 );
 SELECT CAST (SCOPE_IDENTITY() as INT)

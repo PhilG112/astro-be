@@ -8,6 +8,8 @@ SET (
 	Designation2 = @Designation2,
 	Designation3 = @Designation3,
 	Designation4 = @Designation4,
-	Description = @Description
+	Description = @Description,
+	Distance = @Distance,
+	DistanceTolerance = @DistanceTolerance
 )
 WHERE Id = @Id
