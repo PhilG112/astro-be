@@ -318,17 +318,6 @@ components:
         distanceTolerance:
           type: number
           format: double
-      example:
-        objectType: Planetary
-        magnitude: 10.44
-        absoluteMagnitude: 6.84
-        name: Test object
-        designation1: desg1
-        designation2: desg2
-        designation3: desg3
-        designation4: desg4
-        distance: 67329
-        distanceTolerance: 703
 
     error:
       type: object
