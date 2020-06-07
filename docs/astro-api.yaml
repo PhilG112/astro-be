@@ -1,0 +1,392 @@
+openapi: 3.0.0
+info:
+  title: "Astro Api"
+  version: "1.0.0"
+tags:
+  - name: celestial
+  - name: account
+  - name: upload
+
+paths:
+  # Account
+  /login:
+    post:
+      tags:
+        - account
+      summary: Login using userName and password.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginRequest'
+      responses:
+        '200':
+          description: Login OK
+          content:
+            application/json:
+              schema:
+                title: Login Response
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/serverError'
+
+  # Celestial
+  /celestial:
+    post:
+      tags:
+        - celestial
+      summary: Create a new celestial object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/celestialObjectCreateRequest'
+      responses:
+        '201':
+          description: Created response
+          headers:
+            location:
+              description: Uri where the resource was Created
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  celestialObjectId:
+                    type: integer
+                    minimum: 1
+                  
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/serverError'
+  '/celestial/{celestialObjectId}':
+    get:
+      parameters:
+        - $ref: '#/components/parameters/celestialObjectId'
+      summary: Get celestial object by its Id
+      tags:
+        - celestial
+      responses:
+        '200':
+          description: Celestial object found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/celestialObject'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/serverError'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/celestialObjectId'
+      summary: Update a celestial object by its Id
+      tags:
+        - celestial
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/celestialObjectUpdateRequest'
+      responses:
+        '204':
+          description: No content response
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/serverError'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/celestialObjectId'
+      summary: Delete a celestial object by its Id
+      tags:
+        - celestial
+      responses:
+        '204':
+          description: No content response
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/serverError'
+  /celestial/search:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/celestialSearchText'
+      summary: Search celestial objects
+      tags:
+        - celestial
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/celestialObjectSearchResponse'
+
+        '500':
+          $ref: '#/components/responses/serverError'
+
+  # Upload
+  /upload:
+    post:
+      tags:
+        - upload
+      summary: Upload photos to a service
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  imageFile:
+                    type: string
+                    format: binary
+                  uploadType:
+                    type: string
+                    enum:
+                      - BlobStorage
+                      - Flickr
+                  description:
+                    type: string
+      responses:
+        '204':
+          description: Uploaded files successfully
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/serverError'
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    celestialObjectId:
+      in: path
+      name: celestialObjectId
+      required: true
+      schema:
+        type: integer
+      example: 123
+    celestialSearchText:
+      in: query
+      name: text
+      schema:
+        type: string
+      description: Text to search celestial objects by
+
+  schemas:
+    celestialObject:
+      type: object
+      title: CelestialObject
+      description: Model representing a celestial object
+      properties:
+        celestialObjectId:
+          type: integer
+        objectType:
+          type: string
+          enum:
+            - Planetary
+            - Solar
+            - Lunar
+            - Star
+            - Nebula
+            - Galaxy
+        magnitude:
+          type: number
+          format: double
+        absoluteMagnitude:
+          type: number
+          format: double
+        name:
+          type: string
+        designation1:
+          type: string
+        designation2:
+          type: string
+        designation3:
+          type: string
+        designation4:
+          type: string
+        distance:
+          type: number
+          format: double
+        distanceTolerance:
+          type: number
+          format: double
+    celestialObjectCreateRequest:
+      type: object
+      title: CelestialObject
+      description: Model used to create a new celestial object
+      properties:
+        objectType:
+          type: string
+          enum:
+            - Planetary
+            - Solar
+            - Lunar
+            - Star
+            - Nebula
+            - Galaxy
+        magnitude:
+          type: number
+          format: double
+        absoluteMagnitude:
+          type: number
+          format: double
+        name:
+          type: string
+        designation1:
+          type: string
+        designation2:
+          type: string
+        designation3:
+          type: string
+        designation4:
+          type: string
+        distance:
+          type: number
+          format: double
+        distanceTolerance:
+          type: number
+          format: double
+      example:
+        objectType: Planetary
+        magnitude: 10.44
+        absoluteMagnitude: 6.84
+        name: Test object
+        designation1: desg1
+        designation2: desg2
+        designation3: desg3
+        designation4: desg4
+        distance: 67329
+        distanceTolerance: 703
+    celestialObjectUpdateRequest:
+      type: object
+      title: CelestialObject
+      description: Model used to create a new celestial object
+      properties:
+        objectType:
+          type: string
+          enum:
+            - Planetary
+            - Solar
+            - Lunar
+            - Star
+            - Nebula
+            - Galaxy
+        magnitude:
+          type: number
+          format: double
+        absoluteMagnitude:
+          type: number
+          format: double
+        name:
+          type: string
+        designation1:
+          type: string
+        designation2:
+          type: string
+        designation3:
+          type: string
+        designation4:
+          type: string
+        distance:
+          type: number
+          format: double
+        distanceTolerance:
+          type: number
+          format: double
+
+    error:
+      type: object
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+          format: uuid
+        type:
+          type: string
+    loginRequest:
+      title: LoginRequest
+      type: object
+      description: The login request
+      x-tags:
+          - account
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+      required:
+        - userName
+        - password
+
+  responses:
+    celestialObjectSearchResponse:
+      title: CelestialObjectSearchResponse
+      type: object
+      description: The response model when searching for celestial objects
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+            next:
+              type: string
+            previous:
+              type: string
+        total:
+          type: integer
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/celestialObject'
+    badRequest:
+      description: Failed request validation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    notFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    serverError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+
+security:
+  - bearerAuth: []
