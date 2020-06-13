@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Astro.API.Application.Stores.EntityModels.Enums;
+﻿using Astro.API.Application.Stores.EntityModels.Enums;
 
 namespace Astro.API.Application.Request.Update
 {
     public class CelestialUpdateRequestModel
     {
-        public int Id { get; set; }
-
         public ObjectType ObjectType { get; set; }
 
         public double Magnitude { get; set; }
@@ -26,8 +22,8 @@ namespace Astro.API.Application.Request.Update
 
         public string Description { get; set; }
 
-        public decimal Distance { get; set; }
+        public double Distance { get; set; }
 
-        public decimal DistanceTolerance { get; set; }
+        public double DistanceTolerance { get; set; }
     }
 }

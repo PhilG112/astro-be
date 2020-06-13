@@ -54,7 +54,7 @@ namespace Astro.API.Application.Auth
                     Log.Information($"Login OK. By: {userName}. UTC: {DateTime.UtcNow}.");
 
                     var secretKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
-                    var signInCreds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
+                    var signInCreds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha512Signature);
                     var securityToken = new JwtSecurityToken(
                         expires: Constants.JwtToken.ExpireTime,
                         signingCredentials: signInCreds);
@@ -80,8 +80,8 @@ namespace Astro.API.Application.Auth
                 password: given,
                 salt: Convert.FromBase64String(passwordSalt),
                 prf: KeyDerivationPrf.HMACSHA512,
-                iterationCount: 10000,
-                numBytesRequested: 128));
+                iterationCount: 50000,
+                numBytesRequested: 512));
 
             return string.Equals(given, passwordHash);
         }

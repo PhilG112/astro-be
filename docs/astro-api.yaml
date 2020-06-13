@@ -265,6 +265,8 @@ components:
           type: string
         designation4:
           type: string
+        description:
+          type: string
         distance:
           type: number
           format: double
@@ -280,6 +282,7 @@ components:
         designation2: desg2
         designation3: desg3
         designation4: desg4
+        description: description
         distance: 67329
         distanceTolerance: 703
     celestialObjectUpdateRequest:
@@ -311,6 +314,8 @@ components:
         designation3:
           type: string
         designation4:
+          type: string
+        description:
           type: string
         distance:
           type: number
