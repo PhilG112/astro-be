@@ -56,7 +56,6 @@ namespace Astro.API
             });
 
             services.ConfigureApiBehaviourOptions();
-            services.AddSwagger();
             services.AddCelestialStore(Configuration);
             services.AddLogInManager(Configuration);
             services.AddBlobStorageClient(Configuration);
@@ -72,7 +71,6 @@ namespace Astro.API
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseSwaggerConfig();
             app.UseHttpsRedirection();
             app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();

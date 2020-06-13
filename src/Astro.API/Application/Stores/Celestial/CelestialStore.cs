@@ -114,14 +114,16 @@ namespace Astro.API.Application.Stores.Celestial
             }
         }
 
-        public async Task<CelestialUpdateResult> UpdateCelestialObjectAsync(CelestialUpdateRequestModel request)
+        public async Task<CelestialUpdateResult> UpdateCelestialObjectAsync(
+            CelestialUpdateRequestModel request,
+            int celestialObjectId)
         {
             try
             {
                 using var conn = new SqlConnection(_connString);
                 var sqlParams = new
                 {
-                    request.Id,
+                    Id = celestialObjectId,
                     request.Magnitude,
                     request.AbsoluteMagnitude,
                     request.Name,
@@ -143,12 +145,12 @@ namespace Astro.API.Application.Stores.Celestial
             }
             catch (Exception ex)
             {
-                _log.Error(ex, $"Unable to update object with id: {request.Id}");
+                _log.Error(ex, $"Unable to update object with id: {celestialObjectId}");
                 return new CelestialUpdateResult(ex);
             }
         }
 
-        public async Task<CelestialDeleteResult> DeleteCelestialObjectAsync(int id)
+        public async Task<CelestialDeleteResult> DeleteCelestialObjectAsync(int celestialObjectId)
         {
             try
             {
@@ -158,14 +160,14 @@ namespace Astro.API.Application.Stores.Celestial
 
                     await conn.ExecuteAsync(
                         SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Delete),
-                        new { Id = id });
+                        new { Id = celestialObjectId });
 
                     return new CelestialDeleteResult();
                 }
             }
             catch (Exception ex)
             {
-                _log.Error(ex, $"Unable to delete object with id: {id}");
+                _log.Error(ex, $"Unable to delete object with id: {celestialObjectId}");
                 return new CelestialDeleteResult(ex);
             }
         }

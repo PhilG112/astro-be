@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Astro.API/bin/Debug/netcoreapp2.2/Astro.API.dll",
+            "program": "${workspaceFolder}/src/Astro.API/bin/Debug/netcoreapp3.1/Astro.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Astro.API",
             "stopAtEntry": false,

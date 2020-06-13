@@ -20,10 +20,10 @@ namespace Astro.API.Controllers
             _store = store;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCelestialObject(int id)
+        [HttpGet("{celestialObjectId}")]
+        public async Task<IActionResult> GetCelestialObject(int celestialObjectId)
         {
-            var result = await _store.GetCelestialObjectAsync(id);
+            var result = await _store.GetCelestialObjectAsync(celestialObjectId);
 
             if (result.NotFound)
             {
@@ -57,7 +57,6 @@ namespace Astro.API.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCelestialObject([FromBody]CelestialPostRequestModel request)
         {
             var result = await _store.CreateCelestialObjectAsync(request);
@@ -70,11 +69,12 @@ namespace Astro.API.Controllers
             return Created($"/celestial/{result.Result}", result.Result);
         }
 
-        [HttpPatch]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateCelestialObject([FromBody]CelestialUpdateRequestModel request)
+        [HttpPatch("{celestialObjectId}")]
+        public async Task<IActionResult> UpdateCelestialObject(
+            int celestialObjectId,
+            [FromBody]CelestialUpdateRequestModel request)
         {
-            var result = await _store.UpdateCelestialObjectAsync(request);
+            var result = await _store.UpdateCelestialObjectAsync(request, celestialObjectId);
 
             if (result.HasException)
             {
@@ -84,10 +84,10 @@ namespace Astro.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCelestialObject(int id)
+        [HttpDelete("{celestialObjectId}")]
+        public async Task<IActionResult> DeleteCelestialObject(int celestialObjectId)
         {
-            var result = await _store.DeleteCelestialObjectAsync(id);
+            var result = await _store.DeleteCelestialObjectAsync(celestialObjectId);
 
             if (result.HasException)
             {
