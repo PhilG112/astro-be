@@ -1,6 +1,6 @@
-﻿namespace Astro.API.Application.Request.Post
+namespace Astro.Application.Login.Queries.LoginUser
 {
-    public class LogInRequestModel
+    public class LoginUserQuery : IQuery<string>
     {
         public string UserName { get; set; }
 

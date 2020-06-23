@@ -1,4 +1,4 @@
-﻿using Astro.API.Application.Request.Post;
+﻿using Astro.API.Application.Request.Login;
 using FluentValidation;
 
 namespace Astro.API.Application.Validators

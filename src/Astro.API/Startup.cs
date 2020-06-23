@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
 using Astro.API.Application.Services.Upload;
+using Astro.Application;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -44,7 +45,7 @@ namespace Astro.API
             {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
-                var secretKey = Configuration.GetValue<string>("AppSecret");
+                var secretKey = Configuration.GetValue<string>("AppSettings:SecretKey");
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false,
@@ -55,9 +56,9 @@ namespace Astro.API
                 };
             });
 
+            services.AddAstroApplication(Configuration);
             services.ConfigureApiBehaviourOptions();
             services.AddCelestialStore(Configuration);
-            services.AddLogInManager(Configuration);
             services.AddBlobStorageClient(Configuration);
             services.AddSingleton<IUploadService, UploadService>();
         }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Astro.API.Application.Auth;
-using Astro.API.Application.Request.Post;
+using Astro.API.Application.Request.Login;
+using Astro.Application.Login.Queries.LoginUser;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Astro.API.Controllers
@@ -8,29 +9,20 @@ namespace Astro.API.Controllers
     [ApiController]
     public class AccountController : Controller
     {
-        private readonly ILogInManager _logInManager;
+        private readonly IMediator _mediator;
 
-        public AccountController(ILogInManager logInManager)
+        public AccountController(IMediator mediator)
         {
-            _logInManager = logInManager;
+            _mediator = mediator;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]LogInRequestModel request)
         {
-            var result = await _logInManager.LogIn(request.UserName, request.Password);
+            var result = await _mediator.Send(
+                new LoginUserQuery { UserName = request.UserName, Password = request.Password });
 
-            if (result.HasException)
-            {
-                return StatusCode(500);
-            }
-
-            if (result.NotFound)
-            {
-                return BadRequest();
-            }
-
-            return Ok(result.Result);
+            return Ok(new { Token = result });
         }
     }
 }
