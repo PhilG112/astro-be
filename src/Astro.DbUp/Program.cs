@@ -12,6 +12,7 @@ namespace Astro.DbUp
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
+                .AddUserSecrets(Assembly.GetExecutingAssembly())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
