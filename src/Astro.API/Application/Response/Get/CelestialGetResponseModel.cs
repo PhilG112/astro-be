@@ -23,5 +23,9 @@ namespace Astro.API.Application.Response.Get
         public string Designation3 { get; set; }
 
         public string Designation4 { get; set; }
+
+        public decimal Distance { get; set; }
+
+        public decimal DistanceTolerance { get; set; }
     }
 }

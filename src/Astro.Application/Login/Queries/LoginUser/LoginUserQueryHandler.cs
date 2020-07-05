@@ -5,7 +5,9 @@ using Astro.Abstractions;
 using Astro.Abstractions.Data;
 using Astro.Application.Data;
 using Astro.Application.DomainEntities;
+using Astro.Inftrastructure.Exceptions;
 using Dapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace Astro.Application.Login.Queries.LoginUser
@@ -33,13 +35,13 @@ namespace Astro.Application.Login.Queries.LoginUser
 
             if (user is null)
             {
-                throw new Exception("null user");
+                throw new NotFoundException($"User '{request.UserName}' doesn't exist.");
             }
 
             var correctPassword = VerifyPassword(request.Password, user.PasswordHash, user.Salt);
             if (!correctPassword)
             {
-                throw new Exception("wrong pass");
+                throw new ValidationException("Incorrect password.");
             }
 
             return _jwtTokenGenerator.CreateJwtToken();

@@ -19,7 +19,9 @@ namespace Astro.API.Application.Extensions
                 Designation1 = model.Designation1,
                 Designation2 = model.Designation2,
                 Designation3 = model.Designation3,
-                Designation4 = model.Designation4
+                Designation4 = model.Designation4,
+                Distance = model.Distance,
+                DistanceTolerance = model.DistanceTolerance
             };
         }
     }

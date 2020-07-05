@@ -16,11 +16,15 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.5" />
+    <PackageReference Include="FluentValidation" Version="8.6.2" />
+    
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Astro.Abstractions\Astro.Abstractions.csproj" />
     <ProjectReference Include="..\Astro.Domain\Astro.Domain.csproj" />
+    <ProjectReference Include="..\Astro.Infrastructure\Astro.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

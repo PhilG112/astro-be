@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Astro.Domain;
+using Astro.Application.Mediator.Behaviors;
 
 namespace Astro.Application
 {
@@ -17,6 +18,9 @@ namespace Astro.Application
             services.AddScoped<IJwtTokenGenerator>(_ => new JwtTokenGenerator(appSettings));
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+
             services.AddAstroDomain(config);
 
             return services;
