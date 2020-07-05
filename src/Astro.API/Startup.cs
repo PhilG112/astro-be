@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Astro.API.Application.Services.Upload;
 using Astro.Application;
 using FluentValidation.AspNetCore;
+using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,17 +11,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 namespace Astro.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+        private IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -58,18 +62,21 @@ namespace Astro.API
 
             services.AddAstroApplication(Configuration);
             services.ConfigureApiBehaviourOptions();
+            services.AddProblemDetails(Environment);
             services.AddCelestialStore(Configuration);
             services.AddBlobStorageClient(Configuration);
             services.AddSingleton<IUploadService, UploadService>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSerilogRequestLogging();
+            app.UseProblemDetails();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseHttpsRedirection();

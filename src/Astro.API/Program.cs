@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using Astro.API.Application;
-using Microsoft.AspNetCore;
+using Astro.Inftrastructure.Serilog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Events;
 
 namespace Astro.API
 {
@@ -13,55 +13,41 @@ namespace Astro.API
     {
         public static int Main(string[] args)
         {
-            Init();
+            var webHost = CreateWebHostBuilder(args).Build();
+
             try
             {
-                CreateWebHostBuilder(args).Build().Run();
+                webHost.Run();
                 return 0;
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Unable to start host, check application configuartion");
+                Log.Fatal(ex, "Unable to start host, check application configuartion.");
                 return 1;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        public static IHostBuilder CreateWebHostBuilder(string[] args)
         {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-        }
-
-        private static void Init()
-        {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+            return Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((ctx, builder) =>
+            {
+                builder.SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{Constants.Environments.CurrentAspNetEnv}.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
-            if (Constants.Environments.CurrentAspNetEnv == Constants.Environments.Development)
-            {
-                config.AddUserSecrets<Startup>();
-            }
-
-            InitLogging(config.Build());
-        }
-
-        private static void InitLogging(IConfigurationRoot configRoot)
-        {
-            var loggerConfig = new LoggerConfiguration()
-                .Enrich.FromLogContext();
-
-            if (Constants.Environments.CurrentAspNetEnv == Constants.Environments.Development)
-            {
-                var seqServerUrl = configRoot.GetValue<string>("SeqServerUrl");
-                loggerConfig.WriteTo.Seq(seqServerUrl, LogEventLevel.Verbose);
-                loggerConfig.WriteTo.Console(LogEventLevel.Verbose);
-                loggerConfig.WriteTo.File("log.txt", LogEventLevel.Verbose);
-            }
-
-            Log.Logger = loggerConfig.CreateLogger();
+                if (Constants.Environments.CurrentAspNetEnv == Constants.Environments.Development)
+                {
+                    builder.AddUserSecrets<Startup>();
+                }
+            })
+            .UseSerilog((ctx, logConfig) => ctx.CreateDefaultLogger(logConfig))
+            .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
         }
     }
 }
