@@ -14,7 +14,8 @@ BEGIN
 		Description TEXT NULL,
 		Distance DECIMAL(20,3) NOT NULL,
 		DistanceTolerance DECIMAL(15,3) NULL,
-		CONSTRAINT PK_CelestialObjects_Id PRIMARY KEY CLUSTERED (Id)
+		CONSTRAINT PK_CelestialObjects_Id PRIMARY KEY CLUSTERED (Id),
+		INDEX IDX_ObjectType (OBjectType)
 	)
 END
 GO
