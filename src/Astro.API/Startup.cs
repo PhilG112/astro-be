@@ -82,6 +82,7 @@ namespace Astro.API
             app.UseHttpsRedirection();
             app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseBlobStorageClient();
             app.UseEndpoints(config => config.MapControllers());
         }

@@ -8,7 +8,7 @@ namespace Astro.Inftrastructure.Serilog
     public static class SerilogConfiguration
     {
         public static void CreateDefaultLogger(
-            this HostBuilderContext context,
+            HostBuilderContext context,
             LoggerConfiguration loggerConfiguration)
         {
             _ = loggerConfiguration
