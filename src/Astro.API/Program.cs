@@ -34,20 +34,11 @@ namespace Astro.API
         public static IHostBuilder CreateWebHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((ctx, builder) =>
-            {
-                builder.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{Constants.Environments.CurrentAspNetEnv}.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-                if (Constants.Environments.CurrentAspNetEnv == Constants.Environments.Development)
+                .UseSerilog(SerilogConfiguration.CreateDefaultLogger)
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    builder.AddUserSecrets<Startup>();
-                }
-            })
-            .UseSerilog((ctx, logConfig) => ctx.CreateDefaultLogger(logConfig))
-            .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+                    webBuilder.UseStartup<Startup>();
+                });
         }
     }
 }

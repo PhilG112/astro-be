@@ -25,7 +25,9 @@ namespace Astro.API.Application.Services.Upload
                 foreach (var f in request.FormFiles)
                 {
                     var blob = _blobClient.GetBlob(f.FileName);
-                    await blob.UploadFromStreamAsync(f.OpenReadStream());
+
+                    using var file = f.OpenReadStream();
+                    await blob.UploadFromStreamAsync(file);
                 }
 
                 return new UploadPostResult();
