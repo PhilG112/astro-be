@@ -25,7 +25,7 @@ jobs:
     - name: dotnet build and publish
       run: |
         dotnet restore
-        dotnet build -configuration Release
+        dotnet build -c Release
         dotnet publish './src/Astro.API' -c Release -o '${{ env.APP_PATH }}'
     
     - name: Azure Deploy
