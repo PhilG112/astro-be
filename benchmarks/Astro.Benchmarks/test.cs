@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Astro.Benchmarks
 {
-    class test
+    public class Test
     {
     }
 }
