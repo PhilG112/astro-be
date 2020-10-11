@@ -1,0 +1,23 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy to azure
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on: [workflow_dispatch]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Master 
+      uses: actions/checkout@master
+    
+    - name: Azure Deploy
+      uses: Azure/webapps-deploy@v2
+      with:
+        # Name of the Azure Web App
+        app-name: test
+        # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
+        publish-profile: ${{ secrets.APP_PUBLISH_PROFILE }}
