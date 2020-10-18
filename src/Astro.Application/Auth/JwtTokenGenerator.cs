@@ -21,7 +21,9 @@ namespace Astro.Application.Auth
             var signInCreds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha512Signature);
             var securityToken = new JwtSecurityToken(
                 expires: DateTime.Now.AddHours(_appSettings.ExpiresInHours),
-                signingCredentials: signInCreds);
+                signingCredentials: signInCreds,
+                issuer: "https://localhost:5001",
+                audience: "https://localhost:5001");
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }

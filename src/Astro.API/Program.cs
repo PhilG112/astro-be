@@ -1,9 +1,11 @@
 ﻿using System;
-using System.IO;
-using Astro.API.Application;
 using Astro.Inftrastructure.Serilog;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -34,7 +36,35 @@ namespace Astro.API
         public static IHostBuilder CreateWebHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .UseSerilog(SerilogConfiguration.CreateDefaultLogger)
+                .ConfigureAppConfiguration((ctx, config) =>
+                {
+                    var builtConfig = config.Build();
+
+                    var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                    var keyVaultClient = new KeyVaultClient(
+                        new KeyVaultClient.AuthenticationCallback(
+                            azureServiceTokenProvider.KeyVaultTokenCallback));
+
+                    if (!ctx.HostingEnvironment.IsDevelopment())
+                    {
+                        config.AddAzureKeyVault(
+                            $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
+                            keyVaultClient,
+                            new DefaultKeyVaultSecretManager());
+                    }
+                })
+                .UseSerilog((ctx, config) =>
+                {
+                    if (!ctx.HostingEnvironment.IsDevelopment())
+                    {
+                        var teleConfig = TelemetryConfiguration.CreateDefault();
+                        teleConfig.InstrumentationKey = ctx.Configuration.GetValue<string>("APPINSIGHTS_INSTRUMENTATIONKEY");
+
+                        config.WriteTo.ApplicationInsights(teleConfig, TelemetryConverter.Events);
+                    }
+
+                    SerilogConfiguration.CreateDefaultLogger(ctx, config);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

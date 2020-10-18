@@ -47,19 +47,22 @@ namespace Astro.API
             })
             .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = true;
                 options.SaveToken = true;
                 var secretKey = Configuration.GetValue<string>("AppSettings:SecretKey");
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateAudience = false,
                     ValidateIssuer = false,
-                    ValidateLifetime = true,
+                    ValidateAudience = false,
+                    // ValidAudience = "https://localhost:5001",
+                    // ValidIssuer = "https://localhost:5001",
+                    // LifetimeValidator = new LifetimeValidator fix this lol
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey))
                 };
             });
 
+            services.AddApplicationInsightsTelemetry(Configuration.GetValue<string>("ApplicationInsights:Key"));
             services.AddAstroApplication(Configuration);
             services.ConfigureApiBehaviourOptions();
             services.AddProblemDetails(Environment);
