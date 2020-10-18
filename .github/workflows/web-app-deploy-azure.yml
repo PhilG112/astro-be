@@ -32,7 +32,7 @@ jobs:
       uses: Azure/webapps-deploy@v2
       with:
         # Name of the Azure Web App
-        app-name: astrotestgithub
+        app-name: ${{ secrets.AZURE_WEB_APP_NAME }}
         # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
         publish-profile: ${{ secrets.APP_PUBLISH_PROFILE }}
         package: '${{ env.APP_PATH }}'  
