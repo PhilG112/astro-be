@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy to azure
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on: [workflow_dispatch]
+env:
+  APP_PATH: 'published-app'  
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout Master 
+      uses: actions/checkout@master
+      
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.402'  
+      
+    - name: dotnet build and publish
+      run: |
+        dotnet restore
+        dotnet build -c Release
+        dotnet publish './src/Astro.API' -c Release -o '${{ env.APP_PATH }}'
+    
+    - name: Azure Deploy
+      uses: Azure/webapps-deploy@v2
+      with:
+        # Name of the Azure Web App
+        app-name: astrotestgithub
+        # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
+        publish-profile: ${{ secrets.APP_PUBLISH_PROFILE }}
+        package: '${{ env.APP_PATH }}'  
