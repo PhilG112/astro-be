@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Astro.API.Application.Services.Upload;
 using Astro.Application;
 using FluentValidation.AspNetCore;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace Astro.API
@@ -24,6 +22,7 @@ namespace Astro.API
         }
 
         public IConfiguration Configuration { get; }
+
         private IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
@@ -47,19 +46,8 @@ namespace Astro.API
             })
             .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = true;
-                options.SaveToken = true;
-                var secretKey = Configuration.GetValue<string>("AppSettings:SecretKey");
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    // ValidAudience = "https://localhost:5001",
-                    // ValidIssuer = "https://localhost:5001",
-                    // LifetimeValidator = new LifetimeValidator fix this lol
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey))
-                };
+                options.Authority = Configuration["AuthOptions:Domain"];
+                options.Audience = Configuration["AuthOptions:Audience"];
             });
 
             services.AddApplicationInsightsTelemetry(Configuration.GetValue<string>("ApplicationInsights:Key"));
@@ -83,7 +71,7 @@ namespace Astro.API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseHttpsRedirection();
-            app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(options => options.WithOrigins().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseBlobStorageClient();
