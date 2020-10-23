@@ -38,15 +38,22 @@ namespace Astro.API
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((ctx, config) =>
                 {
-                    var builtConfig = config.Build();
+                    var isDevEnv = ctx.HostingEnvironment.IsDevelopment();
 
-                    var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                    var keyVaultClient = new KeyVaultClient(
-                        new KeyVaultClient.AuthenticationCallback(
-                            azureServiceTokenProvider.KeyVaultTokenCallback));
-
-                    if (!ctx.HostingEnvironment.IsDevelopment())
+                    if (isDevEnv)
                     {
+                        config.AddJsonFile("appsettings.dev.json", optional: false, reloadOnChange: true);
+                    }
+
+                    if (!isDevEnv)
+                    {
+                        var builtConfig = config.Build();
+
+                        var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                        var keyVaultClient = new KeyVaultClient(
+                            new KeyVaultClient.AuthenticationCallback(
+                                azureServiceTokenProvider.KeyVaultTokenCallback));
+
                         config.AddAzureKeyVault(
                             $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
                             keyVaultClient,
