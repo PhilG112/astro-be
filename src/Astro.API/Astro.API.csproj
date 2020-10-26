@@ -5,31 +5,21 @@
     <UserSecretsId>9d0d3664-4f04-4cd5-8f29-3fa81702fd2e</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Create.sql" />
-    <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Delete.sql" />
-    <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Get.sql" />
-    <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Search.sql" />
-    <EmbeddedResource Include="Properties\Sql\CelestialObjects\CelestialObject_Update.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.1.0" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.6.0" />
-    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.2" />
     <PackageReference Include="Dapper" Version="2.0.35" />
-    <PackageReference Include="MediatR" Version="8.1.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
     <PackageReference Include="Microsoft.Azure.Services.AppAuthentication" Version="1.6.0" />
-    <PackageReference Include="Microsoft.Owin.Security.OpenIdConnect" Version="4.1.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.8" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.9" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="5.1.1" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
   </ItemGroup>
   <ItemGroup>
     <!-- Make sure all of the necessary appsettings are included with the application. -->
@@ -44,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Astro.Application\Astro.Application.csproj" />
+    <ProjectReference Include="..\Astro.Domain\Astro.Domain.csproj" />
     <ProjectReference Include="..\Astro.Infrastructure\Astro.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

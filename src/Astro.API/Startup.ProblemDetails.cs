@@ -1,6 +1,6 @@
 using System;
 using Astro.API.ProblemDetailObjects;
-using Astro.Inftrastructure.Exceptions;
+using Astro.Infrastructure.Exceptions;
 using FluentValidation;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +19,7 @@ namespace Astro.API
 
                 options.Map<NotFoundException>(ex => new NotFoundProblemDetails(ex));
                 options.Map<ValidationException>(ex => new BadRequestProblemDetails(ex));
+                options.Map<ResourceConflictException>(ex => new ResourceConflictProblemDetails(ex));
 
                 options.Map<Exception>(ex => new ServerErrorProblemDetails(ex));
             });

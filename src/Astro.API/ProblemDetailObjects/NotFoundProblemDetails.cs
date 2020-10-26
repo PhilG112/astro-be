@@ -1,4 +1,4 @@
-using Astro.Inftrastructure.Exceptions;
+using Astro.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
