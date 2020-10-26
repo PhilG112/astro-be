@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Astro.API.Application.Request.Post;
-using Astro.API.Application.Services.Upload;
+using Astro.Application.Upload.Commands.UploadBlob;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +13,11 @@ namespace Astro.API.Controllers
     [Authorize]
     public class UploadController : Controller
     {
-        private readonly IUploadService _uploadService;
+        private readonly IMediator _mediator;
 
-        public UploadController(IUploadService uploadService)
+        public UploadController(IMediator mediator)
         {
-            _uploadService = uploadService;
+            _mediator = mediator;
         }
 
         [HttpPost("flickr")]
@@ -27,16 +27,11 @@ namespace Astro.API.Controllers
         }
 
         [HttpPost("blob")]
-        public async Task<IActionResult> Blob([FromForm]FileUploadRequestModel request)
+        public async Task<IActionResult> Blob([FromForm]UploadBlobCommand request)
         {
-            var result = await _uploadService.UploadToBlobAsync(request);
+            var result = await _mediator.Send(request);
 
-            if (result.HasException)
-            {
-                return StatusCode(500);
-            }
-
-            return Created("/upload/blob", null);
+            return Created("/download/blobs", result);
         }
     }
 }

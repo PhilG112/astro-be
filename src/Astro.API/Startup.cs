@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
-using Astro.API.Application.Services.Upload;
 using Astro.Application;
+using Astro.Domain;
 using FluentValidation.AspNetCore;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -52,11 +52,10 @@ namespace Astro.API
 
             services.AddApplicationInsightsTelemetry(Configuration.GetValue<string>("ApplicationInsights:Key"));
             services.AddAstroApplication(Configuration);
+            services.AddAstroDomain(Configuration);
+
             services.ConfigureApiBehaviourOptions();
             services.AddProblemDetails(Environment);
-            services.AddCelestialStore(Configuration);
-            services.AddBlobStorageClient(Configuration);
-            services.AddSingleton<IUploadService, UploadService>();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -74,13 +73,7 @@ namespace Astro.API
             app.UseCors(options => options.WithOrigins().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseBlobStorageClient();
             app.UseEndpoints(config => config.MapControllers());
-        }
-
-        protected virtual void ConfigureTestServices(IServiceCollection services)
-        {
-            // DEVNOTE: To override in test projects where services can replaced with mocked instances.
         }
     }
 }

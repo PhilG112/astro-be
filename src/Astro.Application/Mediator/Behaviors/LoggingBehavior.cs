@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Astro.Inftrastructure.Exceptions;
+using Astro.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -31,18 +31,32 @@ namespace Astro.Application.Mediator.Behaviors
             {
                 ex.Data.Add("InstanceId", Guid.NewGuid().ToString());
 
-                _logger.LogInformation(ex, "Resource not found for request: {requestName}", requestName);
+                Log($"Resource not found for request: {requestName}", LogLevel.Error, ex);
+
+                throw;
+            }
+            catch (ResourceConflictException ex)
+            {
+                ex.Data.Add("InstanceId", Guid.NewGuid().ToString());
+                Log($"Conflicted resource for request {requestName}", LogLevel.Error, ex);
 
                 throw;
             }
             catch (Exception ex)
             {
                 ex.Data.Add("InstanceId", Guid.NewGuid().ToString());
-
-                _logger.LogError(ex, "Unexpected error for request: {requestName}. Check details.", requestName);
+                Log($"Unexpected error for request: {requestName}. Check details.", LogLevel.Error, ex);
 
                 throw;
             }
+        }
+
+        private void Log(string message, LogLevel logLevel, Exception ex)
+        {
+            _logger.Log(
+                logLevel,
+                ex,
+                message);
         }
     }
 }

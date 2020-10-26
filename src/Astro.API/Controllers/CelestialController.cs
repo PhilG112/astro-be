@@ -1,7 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Astro.API.Application.Request.Post;
-using Astro.API.Application.Request.Update;
-using Astro.API.Application.Stores.Celestial;
+using Astro.Application.Celestial.Commands.CreateCelestialObject;
+using Astro.Application.Celestial.Commands.DeleteCelestialObject;
+using Astro.Application.Celestial.Commands.UpdateCelestialObject;
+using Astro.Application.Celestial.Queries.GetCelestialById;
+using Astro.Application.Celestial.Queries.SearchCelestial;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,73 +16,45 @@ namespace Astro.API.Controllers
     [ApiController]
     public class CelestialController : Controller
     {
-        private readonly ICelestialStore _store;
+        private IMediator _mediator;
 
-        public CelestialController(ICelestialStore store)
+        public CelestialController(IMediator mediator)
         {
-            _store = store;
+            _mediator = mediator;
         }
 
         [HttpGet("{celestialObjectId}")]
         public async Task<IActionResult> GetCelestialObject(int celestialObjectId)
         {
-            var result = await _store.GetCelestialObjectAsync(celestialObjectId);
+            var result = await _mediator.Send(new GetCelestialByIdQuery(celestialObjectId));
 
-            if (result.NotFound)
-            {
-                return NotFound();
-            }
-
-            if (result.HasException)
-            {
-                return StatusCode(500);
-            }
-
-            return Ok(result.Result);
+            return Ok(result);
         }
 
         [HttpGet("search")]
         public async Task<IActionResult> SearchCelestialObject([FromQuery]string text)
         {
-            var result = await _store.SearchCelestialObjectAsync(text);
+            var result = await _mediator.Send(new SearchCelestialQuery(text));
 
-            if (result.NotFound)
-            {
-                return NotFound();
-            }
-
-            if (result.HasException)
-            {
-                return StatusCode(500);
-            }
-
-            return Ok(result.Results);
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCelestialObject([FromBody]CelestialPostRequestModel request)
+        public async Task<IActionResult> CreateCelestialObject([FromBody]CreateCelestialObjectCommand request)
         {
-            var result = await _store.CreateCelestialObjectAsync(request);
+            var result = await _mediator.Send(request);
 
-            if (result.HasException)
-            {
-                return StatusCode(500);
-            }
-
-            return Created($"/celestial/{result.Result}", result.Result);
+            return Created($"/celestial/{result}", new { CelestialObjectId = result });
         }
 
         [HttpPatch("{celestialObjectId}")]
         public async Task<IActionResult> UpdateCelestialObject(
             int celestialObjectId,
-            [FromBody]CelestialUpdateRequestModel request)
+            [FromBody]UpdateCelestialObjectCommand request)
         {
-            var result = await _store.UpdateCelestialObjectAsync(request, celestialObjectId);
+            request.Id = celestialObjectId;
 
-            if (result.HasException)
-            {
-                return StatusCode(500);
-            }
+            await _mediator.Send(request);
 
             return NoContent();
         }
@@ -87,12 +62,7 @@ namespace Astro.API.Controllers
         [HttpDelete("{celestialObjectId}")]
         public async Task<IActionResult> DeleteCelestialObject(int celestialObjectId)
         {
-            var result = await _store.DeleteCelestialObjectAsync(celestialObjectId);
-
-            if (result.HasException)
-            {
-                return StatusCode(500);
-            }
+            await _mediator.Send(new DeleteCelestialObjectCommand(celestialObjectId));
 
             return NoContent();
         }

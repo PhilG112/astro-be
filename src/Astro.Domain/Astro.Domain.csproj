@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Astro.Abstractions\Astro.Abstractions.csproj" />
+    <ProjectReference Include="..\Astro.Infrastructure\Astro.Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -9,9 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.6.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.9" />
   </ItemGroup>
 
 </Project>

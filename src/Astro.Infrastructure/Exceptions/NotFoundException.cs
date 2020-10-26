@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Astro.Inftrastructure.Exceptions
+namespace Astro.Infrastructure.Exceptions
 {
     public class NotFoundException : Exception
     {
