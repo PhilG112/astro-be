@@ -27,6 +27,13 @@ namespace Astro.Domain
                 return new BlobStorageClient(connString);
             });
 
+            services.AddTransient<ISqlDataRepository>(provider =>
+            {
+                var factory = provider.GetRequiredService<ISqlConnectionFactory>();
+
+                return new DapperDataRepository(factory);
+            });
+
             return services;
         }
     }

@@ -3,7 +3,6 @@ using Astro.Application.Celestial.Dtos;
 using Astro.Application.Data;
 using Astro.Application.EntityModels;
 using AutoMapper;
-using Dapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,20 +12,19 @@ namespace Astro.Application.Celestial.Queries.SearchCelestial
 {
     public class SearchCelestialQueryHandler : IQueryHandler<SearchCelestialQuery, IEnumerable<CelestialObjectDto>>
     {
-        private IMapper _mapper;
-        private ISqlConnectionFactory _sqlConnFactory;
+        private readonly ISqlDataRepository _dataRepo;
+        private readonly IMapper _mapper;
 
-        public SearchCelestialQueryHandler(IMapper mapper, ISqlConnectionFactory sqlConnFactory)
+        public SearchCelestialQueryHandler(ISqlDataRepository dataRepo, IMapper mapper)
         {
+            _dataRepo = dataRepo;
             _mapper = mapper;
-            _sqlConnFactory = sqlConnFactory;
         }
 
         public async Task<IEnumerable<CelestialObjectDto>> Handle(SearchCelestialQuery request, CancellationToken cancellationToken)
         {
-            using var sqlConn = _sqlConnFactory.CreateOpenConnection();
 
-            var searchResult = await sqlConn.QueryAsync<CelestialObjectEntityModel>(
+            var searchResult = await _dataRepo.QueryAsync<CelestialObjectEntityModel>(
                     SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Search),
                     new { searchText = $"\"{request.SearchText}*\"" });
 

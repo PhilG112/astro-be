@@ -1,7 +1,5 @@
 ﻿using Astro.Abstractions.Clients;
 using Astro.Application.Upload.Commands.Dtos;
-using MediatR;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

@@ -1,6 +1,5 @@
 ﻿using Astro.Abstractions.Data;
 using Astro.Application.Data;
-using Dapper;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,17 +7,15 @@ namespace Astro.Application.Celestial.Commands.CreateCelestialObject
 {
     public class CreateCelestialObjectCommandHandler : ICommandHandler<CreateCelestialObjectCommand, int>
     {
-        private readonly ISqlConnectionFactory _sqlConnFactory;
+        private readonly ISqlDataRepository _dataRepo;
 
-        public CreateCelestialObjectCommandHandler(ISqlConnectionFactory sqlConnFactory)
+        public CreateCelestialObjectCommandHandler(ISqlDataRepository dataRepo)
         {
-            _sqlConnFactory = sqlConnFactory;
+            _dataRepo = dataRepo;
         }
 
         public async Task<int> Handle(CreateCelestialObjectCommand request, CancellationToken cancellationToken)
         {
-            using var conn = _sqlConnFactory.CreateOpenConnection();
-
             var sqlParams = new
             {
                 ObjectType = request.ObjectType.ToString(),
@@ -34,7 +31,7 @@ namespace Astro.Application.Celestial.Commands.CreateCelestialObject
                 request.DistanceTolerance
             };
 
-            var createResultId = await conn.QuerySingleAsync<int>(
+            var createResultId = await _dataRepo.QueryFirstAsync<int>(
                 SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Create),
                 sqlParams);
 
