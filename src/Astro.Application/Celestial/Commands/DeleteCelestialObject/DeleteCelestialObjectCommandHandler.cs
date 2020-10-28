@@ -1,7 +1,6 @@
 ﻿using Astro.Abstractions.Data;
 using Astro.Application.Data;
 using Astro.Infrastructure.Exceptions;
-using Dapper;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,18 +9,16 @@ namespace Astro.Application.Celestial.Commands.DeleteCelestialObject
 {
     class DeleteCelestialObjectCommandHandler : ICommandHandler<DeleteCelestialObjectCommand>
     {
-        private readonly ISqlConnectionFactory _sqlConnFactory;
+        private readonly ISqlDataRepository _dataRepo;
 
-        public DeleteCelestialObjectCommandHandler(ISqlConnectionFactory sqlConnFactory)
+        public DeleteCelestialObjectCommandHandler(ISqlDataRepository dataRepo)
         {
-            _sqlConnFactory = sqlConnFactory;
+            _dataRepo = dataRepo;
         }
 
         public async Task<Unit> Handle(DeleteCelestialObjectCommand request, CancellationToken cancellationToken)
         {
-            using var conn = _sqlConnFactory.CreateOpenConnection();
-
-            var result = await conn.ExecuteAsync(
+            var result = await _dataRepo.ExecuteAsync(
                 SqlLoader.GetSql(sqlResourceName: SqlResourceNames.CelestialObjects.CelestialObject_Delete),
                 new { Id = request.CelestialObjectId });
 

@@ -1,6 +1,6 @@
 ﻿using Astro.Abstractions.Data;
 using Astro.Application.Data;
-using Dapper;
+using Astro.Infrastructure.Exceptions;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,11 +9,11 @@ namespace Astro.Application.Celestial.Commands.UpdateCelestialObject
 {
     public class UpdateCelestialObjectCommandHandler : ICommandHandler<UpdateCelestialObjectCommand>
     {
-        private readonly ISqlConnectionFactory _sqlConnFactory;
+        private readonly ISqlDataRepository _dataRepo;
 
-        public UpdateCelestialObjectCommandHandler(ISqlConnectionFactory sqlConnFactory)
+        public UpdateCelestialObjectCommandHandler(ISqlDataRepository dataRepo)
         {
-            _sqlConnFactory = sqlConnFactory;
+            _dataRepo = dataRepo;
         }
 
         public async Task<Unit> Handle(UpdateCelestialObjectCommand request, CancellationToken cancellationToken)
@@ -34,11 +34,14 @@ namespace Astro.Application.Celestial.Commands.UpdateCelestialObject
                 request.DistanceTolerance
             };
 
-            using var conn = _sqlConnFactory.CreateOpenConnection();
-
-            await conn.ExecuteAsync(
+            var result = await _dataRepo.ExecuteAsync(
                 SqlLoader.GetSql(SqlResourceNames.CelestialObjects.CelestialObject_Update),
                 sqlParams);
+
+            if (result == 0)
+            {
+                throw new NotFoundException($"Unable to find resource with id '{request.Id}'for deletion.");
+            }
 
             return Unit.Value;
         }
