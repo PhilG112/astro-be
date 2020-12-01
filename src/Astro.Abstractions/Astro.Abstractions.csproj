@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.6.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0" />
   </ItemGroup>
 
 </Project>
